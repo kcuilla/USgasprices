@@ -59,7 +59,7 @@ app_ui <- function() {
         h3(class = "light shift-up", tags$i("Data refreshed once per week every Monday")),
         h1(
           class = "shift-up",
-          tags$a("Code", href = "https://github.com/news-r/fopi.app", target = "_blank", class = "code-link")
+          tags$a("Code", href = "https://github.com/kcuilla/USgasprices", target = "_blank", class = "code-link")
         ),
         tags$p(class = "footer",
           HTML(paste0(
