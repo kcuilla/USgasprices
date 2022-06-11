@@ -1,0 +1,33 @@
+Package: gasprices
+Title: An Amazing Shiny App
+Version: 0.0.0.9000
+Authors@R: 
+    person("firstname", "lastname", , "your@email.com", role = c("aut", "cre"))
+Description: What the package does (one paragraph).
+License: What license is it under?
+Depends: 
+    R (>= 2.10)
+Imports: 
+    config (>= 0.3.1),
+    dplyr,
+    echarts4r,
+    fullPage,
+    golem (>= 0.3.2),
+    hover,
+    magrittr,
+    reactable,
+    reactablefmtr,
+    scales,
+    shiny (>= 1.7.1),
+    shinydashboard,
+    shinyWidgets,
+    tidyr,
+    typedjs
+Suggests: 
+    spelling,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+RoxygenNote: 7.1.1
