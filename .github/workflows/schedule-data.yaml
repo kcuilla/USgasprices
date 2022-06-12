@@ -36,7 +36,10 @@ jobs:
 
       - name: Query dependencies
         run: |
-          install.packages('tidyverse')
+          remotes::install_deps(dependencies = TRUE)
+          install.packages('dplyr')
+          install.packages('tidyr')
+          install.packages('purrr')
           install.packages('eia')
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
