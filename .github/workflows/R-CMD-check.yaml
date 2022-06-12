@@ -1,0 +1,28 @@
+on:
+  schedule:
+    - cron: '5 21 * * 1'
+  push:
+    branches: main
+
+name: Get EIA Gas Data
+
+jobs:
+  render:
+    name: Get EIA Gas Data
+    runs-on: ubuntu-latest
+    env:     
+      API_KEY: ${{ secrets.EIA_API_KEY }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@v1
+      - name: Install dependencies
+        run: Rscript -e 'install.packages(c("eia","tidyverse"))'
+      - name: Get data
+        run: Rscript "source('data-raw/get_data.R')"
+      - name: Commit results
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add data/*
+          git commit -m 'Weekly gas data updated' || echo "No changes to commit"
+          git push origin || echo "No changes to commit"

@@ -1,8 +1,5 @@
 library(eia)
-library(purrr)
-library(tidyr)
-library(dplyr)
-library(stringr)
+library(tidyverse)
 
 # set EIA key
 key <- Sys.getenv("EIA_KEY")
