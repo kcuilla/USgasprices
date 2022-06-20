@@ -15,7 +15,6 @@ jobs:
     env:
       RENV_PATHS_ROOT: ~/.local/share/renv
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
     
     steps:
     
@@ -46,6 +45,8 @@ jobs:
           renv::restore()
 
       - name: Get data
+        with: 
+            EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
         run: Rscript -e 'source("data-raw/get_data.R")'
         
       - name: Commit results
