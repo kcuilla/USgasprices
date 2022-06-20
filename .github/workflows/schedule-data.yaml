@@ -15,6 +15,7 @@ jobs:
     env:
       RENV_PATHS_ROOT: ~/.local/share/renv
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
     
     steps:
     
@@ -25,7 +26,7 @@ jobs:
           install-r: false
           # use RStudio's CRAN mirror with precompiled binaries
           use-public-rspm: true
-          eia_api_key: ${{ secrets.EIA_API_KEY }}
+          
           
       - name: Install libcurl
         run: |
