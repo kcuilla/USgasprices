@@ -46,7 +46,7 @@ jobs:
 
       - name: Get data
         with: 
-            EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
+          eia_api_key: ${{ secrets.EIA_API_KEY }}
         run: Rscript -e 'source("data-raw/get_data.R")'
         
       - name: Commit results
