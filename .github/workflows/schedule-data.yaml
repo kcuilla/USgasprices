@@ -26,6 +26,10 @@ jobs:
           install-r: false
           # use RStudio's CRAN mirror with precompiled binaries
           use-public-rspm: true
+          
+      - name: Install libcurl
+        run: |
+          sudo dnf install openssl-dev libcurl-devel.x86_64
     
       - name: Cache packages
         uses: actions/cache@v1
