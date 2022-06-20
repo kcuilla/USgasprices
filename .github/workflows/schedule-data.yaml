@@ -25,6 +25,7 @@ jobs:
           install-r: false
           # use RStudio's CRAN mirror with precompiled binaries
           use-public-rspm: true
+          eia_api_key: ${{ secrets.EIA_API_KEY }}
           
       - name: Install libcurl
         run: |
@@ -46,8 +47,6 @@ jobs:
 
       - name: Get data
         run: Rscript -e 'source("data-raw/get_data.R")'
-        with: 
-          eia_api_key: ${{ secrets.EIA_API_KEY }}
         
       - name: Commit results
         run: |
