@@ -15,7 +15,7 @@ jobs:
     env:
       RENV_PATHS_ROOT: ~/.local/share/renv
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      API_KEY: ${{ secrets.EIA_API_KEY }}
+      EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
     
     steps:
     

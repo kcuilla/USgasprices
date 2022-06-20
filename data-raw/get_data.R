@@ -4,7 +4,7 @@ library(tidyr)
 library(purrr)
 
 # set EIA key
-key <- Sys.getenv("EIA_KEY")
+key <- Sys.getenv("EIA_API_KEY")
 
 # regular gas series IDs
 regular_ids <- c(
