@@ -15,6 +15,7 @@ Imports:
     golem (>= 0.3.2),
     hover,
     magrittr,
+    pkgload,
     reactable,
     reactablefmtr,
     scales,
