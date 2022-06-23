@@ -15,8 +15,7 @@ jobs:
     env:
       RENV_PATHS_ROOT: ~/.local/share/renv
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
-    
+      
     steps:
     
       - uses: actions/checkout@v2
@@ -29,8 +28,10 @@ jobs:
           
       - name: Create and populate .Renviron file
         run: |
-          echo EIA_API_KEY="EIA_API_KEY" >> ~/.Renviron
-          shell: bash
+          echo EIA_API_KEY="$EIA_API_KEY" >> ~/.Renviron
+        shell: bash
+        env:
+          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
           
       - name: Install libcurl
         run: |
