@@ -1,0 +1,11 @@
+name: usgasprices
+title:
+username:
+account: kcuilla
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 6540332
+bundleId: 6037453
+url: https://kcuilla.shinyapps.io/usgasprices/
+when: 1656015943.05509
+lastSyncTime: 1656015943.05511
