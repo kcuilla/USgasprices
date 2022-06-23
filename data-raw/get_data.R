@@ -2,6 +2,9 @@ library(eia)
 library(dplyr)
 library(tidyr)
 library(purrr)
+library(stringr)
+library(scales)
+library(lubridate)
 
 # set EIA key
 key <- Sys.getenv("EIA_API_KEY")
