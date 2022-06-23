@@ -66,9 +66,9 @@ jobs:
           
       - name: Declare shinyapps.io secrets
         run: |
-          echo SHINY_ACCOUNT="SHINY_ACCOUNT" >> ~/.Renviron
-          echo SHINY_TOKEN="SHINY_TOKEN" >> ~/.Renviron
-          echo SHINY_SECRET="SHINY_SECRET" >> ~/.Renviron
+          echo SHINY_ACCOUNT="$SHINY_ACCOUNT" >> ~/.Renviron
+          echo SHINY_TOKEN="$SHINY_TOKEN" >> ~/.Renviron
+          echo SHINY_SECRET="$SHINY_SECRET" >> ~/.Renviron
         shell: bash
         
       - name: Deploy to shinyapps.io
