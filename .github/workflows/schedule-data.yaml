@@ -27,6 +27,10 @@ jobs:
           # use RStudio's CRAN mirror with precompiled binaries
           use-public-rspm: true
           
+      - name: Create and populate .Renviron file
+        run: |
+          echo EIA_API_KEY="EIA_API_KEY" >> ~/.Renviron
+          shell: bash
           
       - name: Install libcurl
         run: |
