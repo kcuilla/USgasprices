@@ -5,6 +5,7 @@ library(purrr)
 
 # set EIA key
 key <- Sys.getenv("EIA_API_KEY")
+eia_set_key(key)
 
 # regular gas series IDs
 regular_ids <- c(
