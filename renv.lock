@@ -9,6 +9,14 @@
     ]
   },
   "Packages": {
+    "AsioHeaders": {
+      "Package": "AsioHeaders",
+      "Version": "1.22.1-1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "57ed34bcad0158fafd9cbdd85bd26881",
+      "Requirements": []
+    },
     "MASS": {
       "Package": "MASS",
       "Version": "7.3-56",
@@ -170,6 +178,25 @@
         "tibble"
       ]
     },
+    "chromote": {
+      "Package": "chromote",
+      "Version": "0.1.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "785cfc65cd435cc7f7b0cef04e4cf77c",
+      "Requirements": [
+        "R6",
+        "curl",
+        "fastmap",
+        "jsonlite",
+        "later",
+        "magrittr",
+        "processx",
+        "promises",
+        "rlang",
+        "websocket"
+      ]
+    },
     "cli": {
       "Package": "cli",
       "Version": "3.3.0",
@@ -278,6 +305,35 @@
         "R6",
         "cli",
         "rprojroot"
+      ]
+    },
+    "devtools": {
+      "Package": "devtools",
+      "Version": "2.4.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "fc35e13bb582e5fe6f63f3d647a4cbe5",
+      "Requirements": [
+        "callr",
+        "cli",
+        "desc",
+        "ellipsis",
+        "fs",
+        "httr",
+        "lifecycle",
+        "memoise",
+        "pkgbuild",
+        "pkgload",
+        "rcmdcheck",
+        "remotes",
+        "rlang",
+        "roxygen2",
+        "rstudioapi",
+        "rversions",
+        "sessioninfo",
+        "testthat",
+        "usethis",
+        "withr"
       ]
     },
     "diffobj": {
@@ -430,6 +486,30 @@
       "Requirements": [
         "jsonlite",
         "shiny"
+      ]
+    },
+    "gasprices": {
+      "Package": "gasprices",
+      "Version": "0.0.0.9000",
+      "Source": "unknown",
+      "Hash": "33baaf7bb4ce4b8022da478d72b78784",
+      "Requirements": [
+        "config",
+        "dplyr",
+        "echarts4r",
+        "fullPage",
+        "golem",
+        "hover",
+        "magrittr",
+        "pkgload",
+        "reactable",
+        "reactablefmtr",
+        "scales",
+        "shiny",
+        "shinyWidgets",
+        "shinydashboard",
+        "tidyr",
+        "typedjs"
       ]
     },
     "generics": {
@@ -835,6 +915,23 @@
         "vctrs"
       ]
     },
+    "pkgbuild": {
+      "Package": "pkgbuild",
+      "Version": "1.3.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "66d2adfed274daf81ccfe77d974c3b9b",
+      "Requirements": [
+        "R6",
+        "callr",
+        "cli",
+        "crayon",
+        "desc",
+        "prettyunits",
+        "rprojroot",
+        "withr"
+      ]
+    },
     "pkgconfig": {
       "Package": "pkgconfig",
       "Version": "2.0.3",
@@ -940,6 +1037,27 @@
       "Hash": "5e3c5dc0b071b21fa128676560dbe94d",
       "Requirements": []
     },
+    "rcmdcheck": {
+      "Package": "rcmdcheck",
+      "Version": "1.4.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "8f25ebe2ec38b1f2aef3b0d2ef76f6c4",
+      "Requirements": [
+        "R6",
+        "callr",
+        "cli",
+        "curl",
+        "desc",
+        "digest",
+        "pkgbuild",
+        "prettyunits",
+        "rprojroot",
+        "sessioninfo",
+        "withr",
+        "xopen"
+      ]
+    },
     "reactR": {
       "Package": "reactR",
       "Version": "0.4.4",
@@ -966,10 +1084,15 @@
     },
     "reactablefmtr": {
       "Package": "reactablefmtr",
-      "Version": "2.0.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "03265b5334226d0ad25e1fc170ed6c27",
+      "Version": "2.1.0",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "reactablefmtr",
+      "RemoteUsername": "kcuilla",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "1428484f69586e857649f4702dfba91f1b7d767e",
+      "Hash": "d19d39438121ca4257d67a205f903ba2",
       "Requirements": [
         "dplyr",
         "htmltools",
@@ -981,7 +1104,7 @@
         "shiny",
         "stringr",
         "tippy",
-        "webshot"
+        "webshot2"
       ]
     },
     "readxl": {
@@ -1014,6 +1137,14 @@
       "Requirements": [
         "tibble"
       ]
+    },
+    "remotes": {
+      "Package": "remotes",
+      "Version": "2.4.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "227045be9aee47e6dda9bb38ac870d67",
+      "Requirements": []
     },
     "renv": {
       "Package": "renv",
@@ -1087,6 +1218,17 @@
       "Hash": "06c85365a03fdaf699966cc1d3cf53ea",
       "Requirements": []
     },
+    "rversions": {
+      "Package": "rversions",
+      "Version": "2.1.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "f88fab00907b312f8b23ec13e2d437cb",
+      "Requirements": [
+        "curl",
+        "xml2"
+      ]
+    },
     "sass": {
       "Package": "sass",
       "Version": "0.4.1",
@@ -1116,6 +1258,16 @@
         "munsell",
         "rlang",
         "viridisLite"
+      ]
+    },
+    "sessioninfo": {
+      "Package": "sessioninfo",
+      "Version": "1.2.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "3f9796a8d0a0e8c6eb49a4b029359d1f",
+      "Requirements": [
+        "cli"
       ]
     },
     "shiny": {
@@ -1404,16 +1556,31 @@
         "tibble"
       ]
     },
-    "webshot": {
-      "Package": "webshot",
-      "Version": "0.5.3",
+    "webshot2": {
+      "Package": "webshot2",
+      "Version": "0.1.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "7261ab7f98e97c771217e6b87c085d6e",
+      "Hash": "501f4bf937637caf4fc982d264bcc839",
       "Requirements": [
         "callr",
-        "jsonlite",
-        "magrittr"
+        "chromote",
+        "later",
+        "magrittr",
+        "promises"
+      ]
+    },
+    "websocket": {
+      "Package": "websocket",
+      "Version": "1.4.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "76e0d400757e318cca33def29ccebbc2",
+      "Requirements": [
+        "AsioHeaders",
+        "R6",
+        "cpp11",
+        "later"
       ]
     },
     "whisker": {
@@ -1447,6 +1614,16 @@
       "Repository": "CRAN",
       "Hash": "40682ed6a969ea5abfd351eb67833adc",
       "Requirements": []
+    },
+    "xopen": {
+      "Package": "xopen",
+      "Version": "1.0.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "6c85f015dee9cc7710ddd20f86881f58",
+      "Requirements": [
+        "processx"
+      ]
     },
     "xtable": {
       "Package": "xtable",

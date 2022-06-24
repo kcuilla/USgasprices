@@ -38,6 +38,12 @@ jobs:
       - name: Install libcurl
         run: |
           sudo apt-get install libcurl4-openssl-dev
+          
+      - name: Install remotes and rsconnect
+        run: |
+          install.packages(c("remotes", "rsconnect"), type = "binary")
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
     
       - name: Cache packages
         uses: actions/cache@v1
@@ -60,14 +66,10 @@ jobs:
           git add data/*
           git commit -m 'Weekly gas data updated' || echo "No changes to commit"
           git push origin || echo "No changes to commit"
-          
-      - name: Declare shinyapps.io secrets
-        run: |
-          echo SHINY_ACCOUNT="$SHINY_ACCOUNT" >> ~/.Renviron
-          echo SHINY_TOKEN="$SHINY_TOKEN" >> ~/.Renviron
-          echo SHINY_SECRET="$SHINY_SECRET" >> ~/.Renviron
-        shell: bash
         
       - name: Deploy to shinyapps.io
-        run: Rscript -e 'source("app.R")'
+        run: |
+          rsconnect::setAccountInfo(name="${{secrets.SHINY_ACCOUNT}}", token="${{secrets.SHINY_TOKEN}}", secret="${{secrets.SHINY_SECRET}}")
+          rsconnect::deployApp(appName = 'usgasprices')
+        shell: Rscript {0}
         
