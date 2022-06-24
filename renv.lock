@@ -488,30 +488,6 @@
         "shiny"
       ]
     },
-    "gasprices": {
-      "Package": "gasprices",
-      "Version": "0.0.0.9000",
-      "Source": "unknown",
-      "Hash": "33baaf7bb4ce4b8022da478d72b78784",
-      "Requirements": [
-        "config",
-        "dplyr",
-        "echarts4r",
-        "fullPage",
-        "golem",
-        "hover",
-        "magrittr",
-        "pkgload",
-        "reactable",
-        "reactablefmtr",
-        "scales",
-        "shiny",
-        "shinyWidgets",
-        "shinydashboard",
-        "tidyr",
-        "typedjs"
-      ]
-    },
     "generics": {
       "Package": "generics",
       "Version": "0.1.2",
