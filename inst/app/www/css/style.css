@@ -2,7 +2,7 @@
 
 body {
   font-family: "Arsenal", sans-serif;
-  font-size: 2rem;
+  font-size: 1.3rem;
 }
 
 .h1, .h2, .h3, .h4, .h5 {
@@ -15,18 +15,16 @@ h1, .h1, h2, .h2 {
   margin-bottom: 6rem;
 }
 
+h3, .h3 {
+  font-size: 20px;
+}
+
 h6, .h6 {
   font-family: "Roboto", sans-serif;
   font-size: 1.8rem;
   color: #292929;
   font-style: normal;
 }
-
-/*@media only screen and (max-width: 600px) {
-    h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
-        margin-top: 5.1rem;
-    }
-}*/
 
 
 @media only screen and (max-width: 600px) {
@@ -51,18 +49,13 @@ h6, .h6 {
   bottom: 0;
 }
 
-.test {
-  margin-left: 2;
-  margin-top: 10;
-}
-
 .intro {
   font-family: "Oswald", sans-serif;
-  font-size: 8.5rem;
+  font-size: 6rem;
   font-style: normal;
   font-weight: 700;
   letter-spacing: 2px;
-  line-height: 108px;
+  line-height: 100px;
   text-transform: none;
   color: #FFFFFF;
   text-shadow: 1px 2px 5px #555555;
@@ -70,31 +63,10 @@ h6, .h6 {
 
 .dropdown {
   font-family: "Roboto", sans-serif;
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   color: #292929;
   font-style: normal;
 }
-
-/*<div class="form-group shiny-input-container">
-  <label class="control-label shiny-label-null" for="TEST"></label>
-  <select id="TEST" class="selectpicker form-control"><option value="test">test</option>
-<option value="this">this</option></select>
-</div>*/
-
-
-
-/*.btn-lg:hover {
-  background-color: rgba(0,0,0,0.5) !important;
-  border-style: hidden;
-	-webkit-box-shadow: 0 8px 6px -6px black;
-	   -moz-box-shadow: 0 8px 6px -6px black;
-	        box-shadow: 0 8px 6px -6px black;
-}*/
-
-
-
-
-
 
 .code-link {
   color: #f27405 !important;
@@ -112,10 +84,6 @@ h6, .h6 {
 
 .light {
   color: #FFFFFF;
-}
-
-.dark {
-  color: #222222;
 }
 
 .shift-up {

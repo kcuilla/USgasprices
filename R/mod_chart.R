@@ -8,7 +8,7 @@
 #'
 #' @importFrom shiny NS tagList
 
-# javascript animate numbers function
+# custom javascript function to animate numbers
 js <- "
   Shiny.addCustomMessageHandler('anim',
    function(x){
@@ -41,7 +41,7 @@ mod_chart_ui <- function(id){
     fullPage::fullContainer(
       tags$head(tags$script(shiny::HTML(js))),
       br(),br(),br(),
-      fluidRow(style = "margin-left: 26%; border: 1px inset #999999; width: 50%; align-items: center; justify-content: center;",
+      fluidRow(style = "margin-left: 35%; border: 1px inset #999999; width: 30%; align-items: center; justify-content: center;",
         column(
           offset = 2,
           width = 3,
@@ -56,7 +56,7 @@ mod_chart_ui <- function(id){
           3,
           tagAppendAttributes(
             shinydashboard::valueBox("",
-              subtitle = ""
+              subtitle = paste0("As of: ", format(max(gasprices::summary_table$updated), "%m/%d/%y"))
             ),
             id = "midbox"
           )
@@ -70,16 +70,9 @@ mod_chart_ui <- function(id){
             id = "prebox"
           )
         )),
-        fluidRow(style = "align-items: center; justify-content: center;",
-        column(
-          uiOutput(ns("desc")),
-          offset = 4,
-          width = 4
-          )
-        ),
       br(),br(),
       fullPage::fullContainer(
-        column(width = 5,
+        column(width = 4,
         shinyWidgets::pickerInput(
           inputId = ns("location"),
           label = NULL,
@@ -90,22 +83,22 @@ mod_chart_ui <- function(id){
             content = sprintf("<span class='dropdown'>%s</span>", cities)
           ),
           options = list(
-            style = "btn-default btn-lg",
+            style = "btn-default",
             size = 10,
             title = "Select City: "
           ),
           multiple = FALSE
         )),
-        column(width = 6,
-               offset = 1,
+        column(width = 5,
+               offset = 3,
         hover::use_hover(),
         hover::hover_action_button(
-          inputId = ns("add"), label = "  Add U.S. Avg.", width = "35%", class = "dropdown",
+          inputId = ns("add"), label = "  U.S. Avg.", width = "25%", class = "dropdown",
           icon = icon("fas fa-plus-circle", style = "color: rgba(0,100,0,0.8)"),
           button_animation = "shadow grow"
         ),
         hover::hover_action_button(
-          inputId = ns("rm"), label = "  Remove U.S. Avg.", width = "35%", class = "dropdown",
+          inputId = ns("rm"), label = "  U.S. Avg.", width = "25%", class = "dropdown",
           icon = icon("fas fa-minus-circle", style = "color: rgba(255,0,0,0.8)"),
           button_animation = "shadow grow"
       ))),
@@ -126,11 +119,6 @@ mod_chart_ui <- function(id){
 mod_chart_server <- function(input, output, session){
   ns <- session$ns
 
-  output$desc <- renderUI({
-    msg <- paste0("As of: ", format(max(gasprices::summary_table$updated), "%b %d, %Y"))
-    h4(msg)
-  })
-
   reg <- reactive({
     gasprices::summary_table |>
       dplyr::filter(location == input$location & type == "Regular") |>
@@ -150,15 +138,15 @@ mod_chart_server <- function(input, output, session){
   })
 
   observeEvent(reg(), {
-    session$sendCustomMessage("anim", list(id = "regbox", type = "Regular: ", value = reg()))
+    session$sendCustomMessage("anim", list(id = "regbox", type = "Regular ", value = reg()))
   })
 
   observeEvent(mid(), {
-    session$sendCustomMessage("anim", list(id = "midbox", type = "Midgrade: ", value = mid()))
+    session$sendCustomMessage("anim", list(id = "midbox", type = "Midgrade ", value = mid()))
   })
 
   observeEvent(pre(), {
-    session$sendCustomMessage("anim", list(id = "prebox", type = "Premium: ", value = pre()))
+    session$sendCustomMessage("anim", list(id = "prebox", type = "Premium ", value = pre()))
   })
 
   output$linechart <- echarts4r::renderEcharts4r({
@@ -198,7 +186,7 @@ mod_chart_server <- function(input, output, session){
       echarts4r::e_line(`avg`, lineStyle = list(width = "6",
                                                 shadowColor = "rgba(0, 0, 0, 0.4)",
                                                 shadowBlur = "8"),
-                        symbolSize = "0", name = "U.S. Avg") |>
+                        symbolSize = "0", name = "U.S. Avg.") |>
       echarts4r::e_execute()
   })
 

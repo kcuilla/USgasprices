@@ -56,7 +56,7 @@ app_ui <- function() {
             "Data sourced from the U.S. Energy Information Administration ",
             "<a href='https://www.eia.gov/petroleum/gasdiesel/' target='_blank' class='web-link'>(EIA)</a>"))
         ),
-        h3(class = "light shift-up", tags$i("Data refreshed once per week every Monday")),
+        h3(class = "light shift-up", tags$i("Data refreshed by EIA once per week")),
         h1(
           class = "shift-up",
           tags$a("Code", href = "https://github.com/kcuilla/USgasprices", target = "_blank", class = "code-link")

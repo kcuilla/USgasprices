@@ -12,13 +12,12 @@ mod_table_ui <- function(id){
   ns <- NS(id)
   fullPage::pageContainer(
     fluidRow(
-      br(),br(),br(),
+      br(),
       shinyWidgets::radioGroupButtons(
         inputId = ns("type"),
-        label = h3("Select Gas Type:"),
+        label = h4("Select Gas Type:"),
         choices = c("Regular", "Midgrade", "Premium"),
         individual = TRUE,
-        size = "lg",
         checkIcon = list(
           yes = icon("gas-pump")
         )
@@ -27,7 +26,7 @@ mod_table_ui <- function(id){
     br(),
     fluidRow(
       column(
-        width = 4, offset = 8,
+        width = 4, offset = 6,
       shinyWidgets::prettyRadioButtons(
         inputId = ns("change"),
         label = NULL,
@@ -40,8 +39,7 @@ mod_table_ui <- function(id){
         animation = "pulse"
       ))
     ),
-    # br(),
-    reactable::reactableOutput(ns("table"), height="60vh"),
+    reactable::reactableOutput(ns("table"), height="70vh"),
     uiOutput(ns("desc"))
   )
 }
@@ -54,7 +52,7 @@ mod_table_server <- function(input, output, session){
   ns <- session$ns
 
   output$desc <- renderUI({
-    msg <- paste0("As of: ", format(max(gasprices::summary_table$updated), "%b %d, %Y"))
+    msg <- paste0("As of: ", format(max(gasprices::summary_table$updated), "%m/%d/%y"))
     h4(msg)
   })
 
@@ -78,16 +76,15 @@ mod_table_server <- function(input, output, session){
     reactable::reactable(
       theme = reactablefmtr::no_lines(
         background_color = "#FFFFFF",
-        font_size = 18,
-        header_font_size = 16
+        font_size = 14,
+        header_font_size = 13,
+        centered = TRUE
       ),
       defaultSortOrder = "desc",
       defaultSorted = "value",
       pagination = FALSE,
+      fullWidth = FALSE,
       style = list(fontFamily = "Roboto, sans-serif"),
-      # columnGroups = list(
-      #   reactable::colGroup(name = "CHANGE FROM", columns = c("wow","mom","yoy"))
-      # ),
       defaultColDef = reactable::colDef(headerVAlign = "bottom", html = TRUE),
       columns = list(
         type = reactable::colDef(show = FALSE),
@@ -95,17 +92,17 @@ mod_table_server <- function(input, output, session){
         max_date = reactable::colDef(show = FALSE),
         date = reactable::colDef(show = FALSE),
         fill_colors = reactable::colDef(show = FALSE),
-        location = reactable::colDef(name = "LOCATION"),
+        location = reactable::colDef(name = "LOCATION", minWidth = 135),
         max_value = reactable::colDef(name = "HIGHEST RECORDED", align = "center",
           cell = reactablefmtr::merge_column(.,
-                                             spacing = 5,
-                                             size = 18,
-                                             merged_size = 18,
+                                             spacing = -2,
+                                             size = 14,
+                                             merged_size = 11,
                                              merged_name = "max_date",
-                                             merged_position = "right",
+                                             merged_position = "below",
                                              merged_style = "italic")
         ),
-        value = reactable::colDef(name = "DOLLARS PER GALLON", align = "center",
+        value = reactable::colDef(name = "DOLLARS PER GALLON", align = "center", minWidth = 125,
           cell = reactablefmtr::data_bars(.,
                                           background = "transparent",
                                           text_position = "center",
@@ -115,21 +112,21 @@ mod_table_server <- function(input, output, session){
                                           fill_color_ref = "fill_colors",
                                           number_fmt = scales::dollar_format(accuracy = 0.01))
         ),
-        wow = reactable::colDef(name = "VS <br> LAST WEEK", align = "center", maxWidth = 125, #headerVAlign = "bottom", html = TRUE,
+        wow = reactable::colDef(name = "VS <br> LAST WK", align = "center", maxWidth = 80, #headerVAlign = "bottom", html = TRUE,
                                 style = list(background = "rgba(0, 0, 0, 0.03)"),
           cell = reactablefmtr::icon_trend_indicator(.,
                                                      icons = "angle-double",
                                                      colors = c("darkgreen","grey","red"),
                                                      number_fmt = change_format)
         ),
-        mom = reactable::colDef(name = "VS <br> LAST MONTH", align = "center", maxWidth = 125, #headerVAlign = "bottom", html = TRUE,
+        mom = reactable::colDef(name = "VS <br> LAST MO", align = "center", maxWidth = 80, #headerVAlign = "bottom", html = TRUE,
                                 style = list(background = "rgba(0, 0, 0, 0.03)"),
           cell = reactablefmtr::icon_trend_indicator(.,
                                                      icons = "angle-double",
                                                      colors = c("darkgreen","grey","red"),
                                                      number_fmt = change_format)
         ),
-        yoy = reactable::colDef(name = "VS <br> LAST YEAR", align = "center", maxWidth = 125, #headerVAlign = "bottom", html = TRUE,
+        yoy = reactable::colDef(name = "VS <br> LAST YR", align = "center", maxWidth = 80, #headerVAlign = "bottom", html = TRUE,
                                 style = list(background = "rgba(0, 0, 0, 0.03)"),
           cell = reactablefmtr::icon_trend_indicator(.,
                                                      icons = "angle-double",
