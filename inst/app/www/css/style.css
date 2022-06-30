@@ -16,7 +16,14 @@ h1, .h1, h2, .h2 {
 }
 
 h3, .h3 {
-  font-size: 20px;
+  font-size: 2.0rem;
+  margin: 10px 10px 8px 10px;
+}
+
+h5, .h5 {
+  font-style: italic;
+  text-align: center;
+  margin: 5px;
 }
 
 h6, .h6 {
@@ -29,11 +36,10 @@ h6, .h6 {
 
 @media only screen and (max-width: 600px) {
     h1, .h1 {
-        font-size: 3.3rem;
+        font-size: 3.2rem;
         letter-spacing: -.07rem;
     }
 }
-
 .small-box {
   display: flex;
   align-items: center;

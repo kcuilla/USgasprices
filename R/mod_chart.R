@@ -56,7 +56,7 @@ mod_chart_ui <- function(id){
           3,
           tagAppendAttributes(
             shinydashboard::valueBox("",
-              subtitle = paste0("As of: ", format(max(gasprices::summary_table$updated), "%m/%d/%y"))
+              subtitle = ""
             ),
             id = "midbox"
           )
@@ -70,13 +70,14 @@ mod_chart_ui <- function(id){
             id = "prebox"
           )
         )),
+      uiOutput(ns("desc")),
       br(),br(),
       fullPage::fullContainer(
-        column(width = 4,
+        column(width = 2,
         shinyWidgets::pickerInput(
           inputId = ns("location"),
           label = NULL,
-          width = "70%",
+          # width = "70%",
           choices = cities,
           selected = "Boston, MA",
           choicesOpt = list(
@@ -90,7 +91,7 @@ mod_chart_ui <- function(id){
           multiple = FALSE
         )),
         column(width = 5,
-               offset = 3,
+               offset = 4,
         hover::use_hover(),
         hover::hover_action_button(
           inputId = ns("add"), label = "  U.S. Avg.", width = "25%", class = "dropdown",
@@ -105,8 +106,8 @@ mod_chart_ui <- function(id){
       br(),
       fullPage::fullContainer(
         echarts4r::echarts4rOutput(ns("linechart"), height = "60vh")
-      ),
-      h5("Adjust slider to view particular timeframe")
+      )
+      # h5("Adjust slider to view particular timeframe")
     )
   )
 )
@@ -118,6 +119,11 @@ mod_chart_ui <- function(id){
 
 mod_chart_server <- function(input, output, session){
   ns <- session$ns
+  
+  output$desc <- renderUI({
+    msg <- paste0("As of: ", format(max(gasprices::summary_table$updated), "%m/%d/%y"))
+    h5(msg)
+  })
 
   reg <- reactive({
     gasprices::summary_table |>
@@ -138,15 +144,15 @@ mod_chart_server <- function(input, output, session){
   })
 
   observeEvent(reg(), {
-    session$sendCustomMessage("anim", list(id = "regbox", type = "Regular ", value = reg()))
+    session$sendCustomMessage("anim", list(id = "regbox", type = "Regular: ", value = reg()))
   })
 
   observeEvent(mid(), {
-    session$sendCustomMessage("anim", list(id = "midbox", type = "Midgrade ", value = mid()))
+    session$sendCustomMessage("anim", list(id = "midbox", type = "Midgrade: ", value = mid()))
   })
 
   observeEvent(pre(), {
-    session$sendCustomMessage("anim", list(id = "prebox", type = "Premium ", value = pre()))
+    session$sendCustomMessage("anim", list(id = "prebox", type = "Premium: ", value = pre()))
   })
 
   output$linechart <- echarts4r::renderEcharts4r({
@@ -192,7 +198,7 @@ mod_chart_server <- function(input, output, session){
 
   observeEvent(input$rm, {
     echarts4r::echarts4rProxy(ns("linechart")) |> # create a proxy
-      echarts4r::e_remove_serie("U.S. Avg")
+      echarts4r::e_remove_serie("U.S. Avg.")
   })
 
 }

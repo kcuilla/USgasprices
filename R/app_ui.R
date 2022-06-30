@@ -16,19 +16,17 @@
 # }
 app_ui <- function() {
 
-  # options <- list()
-
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
     # List the first level UI elements here
     fullPage::pagePiling(
-      sections.color = c('#ffffff', "#ffffff", '#ffffff', "#ffffff"),
-      # opts = options,
+      sections.color = c('#ffffff', "#ffffff", '#ffffff', "#222222"),
+      opts = list(navigation = FALSE),
       menu = c(
         "Home" = "home",
-        "Latest Trends" = "table",
-        "Historical Trends" = "chart",
+        "Current" = "table",
+        "Historical" = "chart",
         "About" = "about"
       ),
       fullPage::pageSectionImage(
