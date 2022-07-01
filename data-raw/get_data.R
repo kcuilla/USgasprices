@@ -56,7 +56,7 @@ premium_ids <- c(
 )
 
 # function to pull gas prices since 2004
-get_gas_prices <- function(id, start = "20040101") {
+get_gas_prices <- function(id, start = "20070101") {
 
   data <- eia::eia_series(id, start = start)
 
