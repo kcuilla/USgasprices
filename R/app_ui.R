@@ -63,10 +63,10 @@ app_ui <- function() {
         ),
         tags$p(class = "footer-about",
           HTML(paste0(
-            "<a href='https://uncharteddata.netlify.app/' target='_blank'><i class='fas fa-globe fa-2x' style='color:#ffffff; padding:6px;'></i></a>",
-            "<a href='https://www.linkedin.com/in/kylecuilla/' target='_blank'><i class='fab fa-linkedin-in fa-2x' style='color:#ffffff; padding:6px;'></i></a>",
-            "<a href='https://www.twitter.com/kc_analytics' target='_blank'><i class='fab fa-twitter fa-2x' style='color:#ffffff; padding:6px;'></i></a>",
-            "<a href='https://github.com/kcuilla' target='_blank'><i class='fab fa-github fa-2x' style='color:#ffffff; padding:6px;'></i></a>"))
+            "<a href='https://uncharteddata.netlify.app/' target='_blank'><i class='fas fa-globe fa-1x' style='color:#ffffff; padding:6px;'></i></a>",
+            "<a href='https://www.linkedin.com/in/kylecuilla/' target='_blank'><i class='fab fa-linkedin-in fa-1x' style='color:#ffffff; padding:6px;'></i></a>",
+            "<a href='https://www.twitter.com/kc_analytics' target='_blank'><i class='fab fa-twitter fa-1x' style='color:#ffffff; padding:6px;'></i></a>",
+            "<a href='https://github.com/kcuilla' target='_blank'><i class='fab fa-github fa-1x' style='color:#ffffff; padding:6px;'></i></a>"))
         ),
         h3(class = "light shift-up", tags$i("Data refreshed once per week by EIA")),
         h1(

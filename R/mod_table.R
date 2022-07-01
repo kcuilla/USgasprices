@@ -38,109 +38,109 @@ mod_table_ui <- function(id){
   
   fullPage::fullSlide(
     fullPage::fullContainer(
-      fluidRow(
+        tags$head(tags$script(shiny::HTML(js))),
+        br(),br(),br(),
+        fluidRow(style = "border: 1px solid #999999; display: flex; max-width: 100%; align-items: center; justify-content: center; margin-left: auto; margin-right: auto;",
+          column(
+            offset = 2,
+            width = 3,
+            tagAppendAttributes(
+              shinydashboard::valueBox("",
+                subtitle = ""
+              ),
+              id = "regbox"
+            )
+          ),
+          column(
+            3,
+            tagAppendAttributes(
+              shinydashboard::valueBox("",
+                subtitle = ""
+              ),
+              id = "midbox"
+            )
+          ),
+          column(
+            3,
+            tagAppendAttributes(
+              shinydashboard::valueBox("",
+                subtitle = ""
+              ),
+              id = "prebox"
+            )
+          )),
+        uiOutput(ns("desc2"), class = "chart-as-of-date"),
         br(),
-        shinyWidgets::radioGroupButtons(
-          inputId = ns("type"),
-          label = h5("Select Gas Type:"),
-          choices = c("Regular", "Midgrade", "Premium"),
-          individual = TRUE,
-          checkIcon = list(
-            yes = icon("gas-pump")
+        fullPage::fullRow(
+          column(width = 2,
+                 offset = 1,
+          shinyWidgets::pickerInput(
+            inputId = ns("location"),
+            label = NULL,
+            choices = cities,
+            selected = "Boston, MA",
+            choicesOpt = list(
+              content = sprintf("<span class='dropdown'>%s</span>", cities)
+            ),
+            options = list(
+              style = "btn-default",
+              size = 10,
+              title = "Select City: "
+            ),
+            multiple = FALSE
+          )),
+          column(width = 5,
+                 offset = 3,
+          hover::use_hover(),
+          hover::hover_action_button(
+            inputId = ns("add"), label = "  U.S. Avg.", width = "35%", class = "dropdown",
+            icon = icon("fas fa-plus-circle", style = "color: rgba(0,100,0,0.8)"),
+            button_animation = "shadow grow"
+          ),
+          hover::hover_action_button(
+            inputId = ns("rm"), label = "  U.S. Avg.", width = "35%", class = "dropdown",
+            icon = icon("fas fa-minus-circle", style = "color: rgba(255,0,0,0.8)"),
+            button_animation = "shadow grow"
+        ))),
+        br(),
+        fullPage::fullContainer(
+          echarts4r::echarts4rOutput(ns("linechart"), height = "60vh")
           )
-        )
-      ),
-      fluidRow(
-        column(
-          width = 4, offset = 6,
-        shinyWidgets::prettyRadioButtons(
-          inputId = ns("change"),
-          label = NULL,
-          choiceNames = c("$ Change", "% Change"),
-          choiceValues = c("dollar", "percent"),
-          inline = TRUE,
-          fill = TRUE,
-          thick = TRUE,
-          status = "success",
-          animation = "pulse"
-        ))
-      ),
-      reactable::reactableOutput(ns("table"), height="63vh"),
-      uiOutput(ns("desc"), class = "table-as-of-date")
-    ),
-    fullPage::fullSlide(
-      fullPage::fullContainer(
-          tags$head(tags$script(shiny::HTML(js))),
-          br(),br(),br(),
-          fluidRow(style = "border: 1px solid #999999; display: flex; max-width: 80%; align-items: center; justify-content: center; margin-left: auto; margin-right: auto;",
-            column(
-              offset = 2,
-              width = 3,
-              tagAppendAttributes(
-                shinydashboard::valueBox("",
-                  subtitle = ""
-                ),
-                id = "regbox"
-              )
-            ),
-            column(
-              3,
-              tagAppendAttributes(
-                shinydashboard::valueBox("",
-                  subtitle = ""
-                ),
-                id = "midbox"
-              )
-            ),
-            column(
-              3,
-              tagAppendAttributes(
-                shinydashboard::valueBox("",
-                  subtitle = ""
-                ),
-                id = "prebox"
-              )
-            )),
-          uiOutput(ns("desc2"), class = "chart-as-of-date"),
-          br(),
-          fullPage::fullRow(
-            column(width = 2,
-                   offset = 1,
-            shinyWidgets::pickerInput(
-              inputId = ns("location"),
-              label = NULL,
-              choices = cities,
-              selected = "Boston, MA",
-              choicesOpt = list(
-                content = sprintf("<span class='dropdown'>%s</span>", cities)
-              ),
-              options = list(
-                style = "btn-default",
-                size = 10,
-                title = "Select City: "
-              ),
-              multiple = FALSE
-            )),
-            column(width = 5,
-                   offset = 3,
-            hover::use_hover(),
-            hover::hover_action_button(
-              inputId = ns("add"), label = "  U.S. Avg.", width = "35%", class = "dropdown",
-              icon = icon("fas fa-plus-circle", style = "color: rgba(0,100,0,0.8)"),
-              button_animation = "shadow grow"
-            ),
-            hover::hover_action_button(
-              inputId = ns("rm"), label = "  U.S. Avg.", width = "35%", class = "dropdown",
-              icon = icon("fas fa-minus-circle", style = "color: rgba(255,0,0,0.8)"),
-              button_animation = "shadow grow"
-          ))),
-          br(),
+        ),
+        fullPage::fullSlide(
           fullPage::fullContainer(
-            echarts4r::echarts4rOutput(ns("linechart"), height = "60vh")
+            fluidRow(
+              br(),
+              shinyWidgets::radioGroupButtons(
+                inputId = ns("type"),
+                label = h5("Select Gas Type:"),
+                choices = c("Regular", "Midgrade", "Premium"),
+                individual = TRUE,
+                checkIcon = list(
+                  yes = icon("gas-pump")
+                )
+              )
+            ),
+            fluidRow(
+              column(
+                width = 4, offset = 6,
+              shinyWidgets::prettyRadioButtons(
+                inputId = ns("change"),
+                label = NULL,
+                choiceNames = c("$ Change", "% Change"),
+                choiceValues = c("dollar", "percent"),
+                inline = TRUE,
+                fill = TRUE,
+                thick = TRUE,
+                status = "success",
+                animation = "pulse"
+              ))
+            ),
+            reactable::reactableOutput(ns("table"), height="63vh"),
+            uiOutput(ns("desc"), class = "table-as-of-date")
             )
           )
         )
-    )
 }
 
 #' mod_table Server Functions

@@ -13,7 +13,7 @@ mod_chart_ui <- function(id){
 
   fullPage::fullContainer(
     center = TRUE,
-    echarts4r::echarts4rOutput(ns("streamgraph"), height = "75vh")
+    echarts4r::echarts4rOutput(ns("streamgraph"), height = "80vh")
   )
 }
 
