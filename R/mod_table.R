@@ -72,7 +72,7 @@ mod_table_ui <- function(id){
       fullPage::fullContainer(
           tags$head(tags$script(shiny::HTML(js))),
           br(),br(),br(),
-          fluidRow(style = "border: 1px solid #999999; display: flex; max-width: 50%; margin-left: auto; margin-right: auto;",
+          fluidRow(style = "border: 1px solid #999999; display: flex; max-width: 80%; align-items: center; justify-content: center; margin-left: auto; margin-right: auto;",
             column(
               offset = 2,
               width = 3,
@@ -172,6 +172,11 @@ mod_table_server <- function(input, output, session){
         location == "U.S." ~ "#7c7c7c",
         TRUE ~ "#f27405"
       )) %>%
+      dplyr::mutate(location = dplyr::case_when(
+        location == "San Francisco, CA" ~ "SF, CA",
+        location == "Los Angeles, CA" ~ "LA, CA",
+        TRUE ~ location
+      )) %>% 
     reactable::reactable(
       theme = reactablefmtr::no_lines(
         background_color = "#FFFFFF",
@@ -193,15 +198,16 @@ mod_table_server <- function(input, output, session){
         date = reactable::colDef(show = FALSE),
         fill_colors = reactable::colDef(show = FALSE),
         location = reactable::colDef(name = "LOCATION"),
-        max_value = reactable::colDef(name = "RECORD", align = "center", maxWidth = 75,
-          cell = reactablefmtr::merge_column(.,
-                                             spacing = -3,
-                                             size = 14,
-                                             merged_size = 10,
-                                             merged_name = "max_date",
-                                             merged_position = "below",
-                                             merged_style = "italic")
-        ),
+        # max_value = reactable::colDef(name = "RECORD", align = "center", maxWidth = 75,
+        #   cell = reactablefmtr::merge_column(.,
+        #                                      spacing = -3,
+        #                                      size = 14,
+        #                                      merged_size = 10,
+        #                                      merged_name = "max_date",
+        #                                      merged_position = "below",
+        #                                      merged_style = "italic")
+        # ),
+        max_value = reactable::colDef(show = FALSE),
         value = reactable::colDef(name = "PER GALLON", align = "center",
           cell = reactablefmtr::data_bars(.,
                                           background = "transparent",
@@ -212,21 +218,21 @@ mod_table_server <- function(input, output, session){
                                           fill_color_ref = "fill_colors",
                                           number_fmt = scales::dollar_format(accuracy = 0.01))
         ),
-        wow = reactable::colDef(name = "VS <br> LAST WK", align = "center", maxWidth = 75, 
+        wow = reactable::colDef(name = "VS <br> LAST WK", align = "center", maxWidth = 67, 
                                 style = list(background = "rgba(0, 0, 0, 0.03)"),
           cell = reactablefmtr::icon_trend_indicator(.,
                                                      icons = "angle-double",
                                                      colors = c("darkgreen","grey","red"),
                                                      number_fmt = change_format)
         ),
-        mom = reactable::colDef(name = "VS <br> LAST MO", align = "center", maxWidth = 75,
+        mom = reactable::colDef(name = "VS <br> LAST MO", align = "center", maxWidth = 67,
                                 style = list(background = "rgba(0, 0, 0, 0.03)"),
           cell = reactablefmtr::icon_trend_indicator(.,
                                                      icons = "angle-double",
                                                      colors = c("darkgreen","grey","red"),
                                                      number_fmt = change_format)
         ),
-        yoy = reactable::colDef(name = "VS <br> LAST YR", align = "center", maxWidth = 75, 
+        yoy = reactable::colDef(name = "VS <br> LAST YR", align = "center", maxWidth = 67, 
                                 style = list(background = "rgba(0, 0, 0, 0.03)"),
           cell = reactablefmtr::icon_trend_indicator(.,
                                                      icons = "angle-double",
@@ -294,7 +300,7 @@ mod_table_server <- function(input, output, session){
       echarts4r::e_line(mid, name = input$location, lineStyle = list(width = "0"), symbolSize = "0") |>
       echarts4r::e_tooltip(trigger = "axis",
                            renderMode = "richText") |>
-      echarts4r::e_axis_labels(y = "Dollars Per Gallon") |>
+      echarts4r::e_axis_labels(y = "$/gal") |>
       echarts4r::e_legend(textStyle = list(fontSize = "15")) |>
       echarts4r::e_color(my_colors) 
       # echarts4r::e_datazoom(start = 73)
