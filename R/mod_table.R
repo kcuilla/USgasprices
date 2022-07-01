@@ -110,7 +110,7 @@ mod_table_ui <- function(id){
         fullPage::fullSlide(
           fullPage::fullContainer(
             fluidRow(
-              br(),
+              br(),br(),br(),
               shinyWidgets::radioGroupButtons(
                 inputId = ns("type"),
                 label = h5("Select Gas Type:"),
@@ -136,7 +136,7 @@ mod_table_ui <- function(id){
                 animation = "pulse"
               ))
             ),
-            reactable::reactableOutput(ns("table"), height="63vh"),
+            reactable::reactableOutput(ns("table"), height="60vh"),
             uiOutput(ns("desc"), class = "table-as-of-date")
             )
           )
