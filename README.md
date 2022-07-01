@@ -1,7 +1,14 @@
-# USgasprices
+# U.S. Gas Prices Visualized
 
-Automated Shiny app to display weekly U.S. gas prices.
+The [U.S. Gas Prices](https://kcuilla.shinyapps.io/usgasprices/) site displays the latest weekly gas prices from major cities across the U.S.. The data is pulled automatically from the [U.S. Energy Information Administration's](https://www.eia.gov/petroleum/gasdiesel/) weekly gas update.
 
-https://kcuilla.shinyapps.io/usgasprices/
+Here is a preview of the site:
+[current1]
+[current2]
+[historical]
 
-Note: best if viewed on desktop
+## About the data
+
+## Automatic updating
+
+## Shiny app
