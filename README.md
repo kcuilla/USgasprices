@@ -2,6 +2,8 @@
 
 The [U.S. Gas Prices](https://kcuilla.shinyapps.io/usgasprices/) app displays the latest weekly gas prices from major cities across the U.S.. The data is pulled automatically from the U.S. Energy Information Administration's [weekly gas update](https://www.eia.gov/petroleum/gasdiesel/).
 
+<img src="https://raw.githubusercontent.com/kcuilla/USgasprices/main/demo/streamgraph.PNG" />
+
 ## Demo 
 
 <img src="https://raw.githubusercontent.com/kcuilla/USgasprices/main/demo/gaspriceshinytour.gif" />
