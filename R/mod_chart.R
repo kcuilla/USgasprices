@@ -65,7 +65,7 @@ mod_chart_ui <- function(id){
              force_edges = TRUE,
              choices = years
           ))),
-            highcharter::highchartOutput(ns("waterfall"), height = "65vh")
+            highcharter::highchartOutput(ns("waterfall"), height = "55vh")
           ))
     )
   )
