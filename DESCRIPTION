@@ -13,6 +13,7 @@ Imports:
     echarts4r,
     fullPage,
     golem (>= 0.3.2),
+    highcharter,
     hover,
     magrittr,
     pkgload,

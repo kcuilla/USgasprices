@@ -38,106 +38,106 @@ mod_table_ui <- function(id){
   
   fullPage::fullSlide(
     fullPage::fullContainer(
-        tags$head(tags$script(shiny::HTML(js))),
+      fluidRow(
         br(),br(),br(),
-        fluidRow(style = "border: 1px solid #999999; display: flex; max-width: 100%; align-items: center; justify-content: center; margin-left: auto; margin-right: auto;",
-          column(
-            offset = 2,
-            width = 3,
-            tagAppendAttributes(
-              shinydashboard::valueBox("",
-                subtitle = ""
-              ),
-              id = "regbox"
-            )
-          ),
-          column(
-            3,
-            tagAppendAttributes(
-              shinydashboard::valueBox("",
-                subtitle = ""
-              ),
-              id = "midbox"
-            )
-          ),
-          column(
-            3,
-            tagAppendAttributes(
-              shinydashboard::valueBox("",
-                subtitle = ""
-              ),
-              id = "prebox"
-            )
-          )),
-        uiOutput(ns("desc2"), class = "chart-as-of-date"),
-        br(),
-        fullPage::fullRow(
-          column(width = 2,
-                 offset = 1,
-          shinyWidgets::pickerInput(
-            inputId = ns("location"),
-            label = NULL,
-            choices = cities,
-            selected = "Boston, MA",
-            choicesOpt = list(
-              content = sprintf("<span class='dropdown'>%s</span>", cities)
-            ),
-            options = list(
-              style = "btn-default",
-              size = 10,
-              title = "Select City: "
-            ),
-            multiple = FALSE
-          )),
-          column(width = 5,
-                 offset = 3,
-          hover::use_hover(),
-          hover::hover_action_button(
-            inputId = ns("add"), label = "  U.S. Avg.", width = "35%", class = "dropdown",
-            icon = icon("fas fa-plus-circle", style = "color: rgba(0,100,0,0.8)"),
-            button_animation = "shadow grow"
-          ),
-          hover::hover_action_button(
-            inputId = ns("rm"), label = "  U.S. Avg.", width = "35%", class = "dropdown",
-            icon = icon("fas fa-minus-circle", style = "color: rgba(255,0,0,0.8)"),
-            button_animation = "shadow grow"
-        ))),
-        br(),
-        fullPage::fullContainer(
-          echarts4r::echarts4rOutput(ns("linechart"), height = "60vh")
+        shinyWidgets::radioGroupButtons(
+          inputId = ns("type"),
+          label = h5("Gas Type:"),
+          choices = c("Regular", "Midgrade", "Premium"),
+          individual = TRUE,
+          checkIcon = list(
+            yes = icon("gas-pump")
           )
-        ),
-        fullPage::fullSlide(
-          fullPage::fullContainer(
-            fluidRow(
-              br(),br(),br(),
-              shinyWidgets::radioGroupButtons(
-                inputId = ns("type"),
-                label = h5("Select Gas Type:"),
-                choices = c("Regular", "Midgrade", "Premium"),
-                individual = TRUE,
-                checkIcon = list(
-                  yes = icon("gas-pump")
-                )
-              )
-            ),
-            fluidRow(
+        )
+      ),
+      fluidRow(
+        column(
+          width = 2, offset = 7,
+        shinyWidgets::prettyRadioButtons(
+          inputId = ns("change"),
+          label = NULL,
+          choiceNames = c("$ Change", "% Change"),
+          choiceValues = c("dollar", "percent"),
+          inline = TRUE,
+          fill = TRUE,
+          thick = TRUE,
+          status = "success",
+          animation = "pulse"
+        ))
+      ),
+      reactable::reactableOutput(ns("table"), height="60vh"),
+      uiOutput(ns("desc"), class = "table-as-of-date")
+      ),
+      fullPage::fullSlide(
+        fullPage::fullContainer(
+            tags$head(tags$script(shiny::HTML(js))),
+            br(),br(),br(),
+            fluidRow(style = "border: 1px solid #999999; display: flex; max-width: 100%; align-items: center; justify-content: center; margin-left: auto; margin-right: auto;",
               column(
-                width = 4, offset = 6,
-              shinyWidgets::prettyRadioButtons(
-                inputId = ns("change"),
+                offset = 2,
+                width = 3,
+                tagAppendAttributes(
+                  shinydashboard::valueBox("",
+                    subtitle = ""
+                  ),
+                  id = "regbox"
+                )
+              ),
+              column(
+                3,
+                tagAppendAttributes(
+                  shinydashboard::valueBox("",
+                    subtitle = ""
+                  ),
+                  id = "midbox"
+                )
+              ),
+              column(
+                3,
+                tagAppendAttributes(
+                  shinydashboard::valueBox("",
+                    subtitle = ""
+                  ),
+                  id = "prebox"
+                )
+              )),
+            uiOutput(ns("desc2"), class = "chart-as-of-date"),
+            br(),
+            fullPage::fullRow(
+              column(width = 2,
+                     offset = 1,
+              shinyWidgets::pickerInput(
+                inputId = ns("location"),
                 label = NULL,
-                choiceNames = c("$ Change", "% Change"),
-                choiceValues = c("dollar", "percent"),
-                inline = TRUE,
-                fill = TRUE,
-                thick = TRUE,
-                status = "success",
-                animation = "pulse"
-              ))
-            ),
-            reactable::reactableOutput(ns("table"), height="60vh"),
-            uiOutput(ns("desc"), class = "table-as-of-date")
+                choices = cities,
+                selected = "Boston, MA",
+                choicesOpt = list(
+                  content = sprintf("<span class='dropdown'>%s</span>", cities)
+                ),
+                options = list(
+                  style = "btn-default",
+                  size = 10,
+                  title = "Select City: "
+                ),
+                multiple = FALSE
+              )),
+              column(width = 5,
+                     offset = 3,
+              hover::use_hover(),
+              hover::hover_action_button(
+                inputId = ns("add"), label = "  U.S. Avg.", width = "35%", class = "dropdown",
+                icon = icon("fas fa-plus-circle", style = "color: rgba(0,100,0,0.8)"),
+                button_animation = "shadow grow"
+              ),
+              hover::hover_action_button(
+                inputId = ns("rm"), label = "  U.S. Avg.", width = "35%", class = "dropdown",
+                icon = icon("fas fa-minus-circle", style = "color: rgba(255,0,0,0.8)"),
+                button_animation = "shadow grow"
+            ))),
+            br(),
+            fullPage::fullContainer(
+              echarts4r::echarts4rOutput(ns("linechart"), height = "60vh")
+              )
             )
           )
         )
@@ -181,7 +181,7 @@ mod_table_server <- function(input, output, session){
       theme = reactablefmtr::no_lines(
         background_color = "#FFFFFF",
         font_size = 14,
-        header_font_size = 13,
+        header_font_size = 12,
         cell_padding = 2,
         centered = TRUE
       ),
@@ -198,15 +198,6 @@ mod_table_server <- function(input, output, session){
         date = reactable::colDef(show = FALSE),
         fill_colors = reactable::colDef(show = FALSE),
         location = reactable::colDef(name = "LOCATION"),
-        # max_value = reactable::colDef(name = "RECORD", align = "center", maxWidth = 75,
-        #   cell = reactablefmtr::merge_column(.,
-        #                                      spacing = -3,
-        #                                      size = 14,
-        #                                      merged_size = 10,
-        #                                      merged_name = "max_date",
-        #                                      merged_position = "below",
-        #                                      merged_style = "italic")
-        # ),
         max_value = reactable::colDef(show = FALSE),
         value = reactable::colDef(name = "PER GALLON", align = "center",
           cell = reactablefmtr::data_bars(.,
@@ -218,21 +209,21 @@ mod_table_server <- function(input, output, session){
                                           fill_color_ref = "fill_colors",
                                           number_fmt = scales::dollar_format(accuracy = 0.01))
         ),
-        wow = reactable::colDef(name = "VS <br> LAST WK", align = "center", maxWidth = 67, 
+        wow = reactable::colDef(name = "VS <br> LAST WK", align = "center", maxWidth = 66, 
                                 style = list(background = "rgba(0, 0, 0, 0.03)"),
           cell = reactablefmtr::icon_trend_indicator(.,
                                                      icons = "angle-double",
                                                      colors = c("darkgreen","grey","red"),
                                                      number_fmt = change_format)
         ),
-        mom = reactable::colDef(name = "VS <br> LAST MO", align = "center", maxWidth = 67,
+        mom = reactable::colDef(name = "VS <br> LAST MO", align = "center", maxWidth = 66,
                                 style = list(background = "rgba(0, 0, 0, 0.03)"),
           cell = reactablefmtr::icon_trend_indicator(.,
                                                      icons = "angle-double",
                                                      colors = c("darkgreen","grey","red"),
                                                      number_fmt = change_format)
         ),
-        yoy = reactable::colDef(name = "VS <br> LAST YR", align = "center", maxWidth = 67, 
+        yoy = reactable::colDef(name = "VS <br> LAST YR", align = "center", maxWidth = 66, 
                                 style = list(background = "rgba(0, 0, 0, 0.03)"),
           cell = reactablefmtr::icon_trend_indicator(.,
                                                      icons = "angle-double",
@@ -301,9 +292,9 @@ mod_table_server <- function(input, output, session){
       echarts4r::e_tooltip(trigger = "axis",
                            renderMode = "richText") |>
       echarts4r::e_axis_labels(y = "$/gal") |>
+      echarts4r::e_y_axis(max = 7) |>
       echarts4r::e_legend(textStyle = list(fontSize = "15")) |>
       echarts4r::e_color(my_colors) 
-      # echarts4r::e_datazoom(start = 73)
   })
 
   observeEvent(input$add, {
@@ -313,16 +304,16 @@ mod_table_server <- function(input, output, session){
       dplyr::group_by(date) |>
       dplyr::summarize(avg = round(mean(`U.S.`, na.rm = TRUE), digits = 2))
 
-    echarts4r::echarts4rProxy(ns("linechart"), data = us_avg, x = date) |>  # create a proxy
-      echarts4r::e_line(`avg`, lineStyle = list(width = "6",
+    echarts4r::echarts4rProxy(ns("linechart"), data = us_avg, x = date) |>  
+      echarts4r::e_line(`avg`, lineStyle = list(width = "4",
                                                 shadowColor = "rgba(0, 0, 0, 0.4)",
-                                                shadowBlur = "8"),
+                                                shadowBlur = "6"),
                         symbolSize = "0", name = "U.S. Avg.") |>
       echarts4r::e_execute()
   })
 
   observeEvent(input$rm, {
-    echarts4r::echarts4rProxy(ns("linechart")) |> # create a proxy
+    echarts4r::echarts4rProxy(ns("linechart")) |> 
       echarts4r::e_remove_serie("U.S. Avg.")
   })
 }

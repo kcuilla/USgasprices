@@ -10,7 +10,7 @@ jobs:
   generate-data:
     name: update data
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 45
 
     env:
       RENV_PATHS_ROOT: ~/.local/share/renv
@@ -59,6 +59,9 @@ jobs:
         run: |
           if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
           renv::restore()
+          
+      - name: Get data
+        run: Rscript -e 'source("data-raw/get_data.R")'
         
       - name: Commit results
         run: |
