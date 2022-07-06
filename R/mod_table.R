@@ -72,7 +72,7 @@ mod_table_ui <- function(id){
         fullPage::fullContainer(
             tags$head(tags$script(shiny::HTML(js))),
             br(),br(),br(),
-            fluidRow(style = "border: 1px solid #999999; display: flex; max-width: 100%; align-items: center; justify-content: center; margin-left: auto; margin-right: auto;",
+            fluidRow(style = "border: 1px solid #999999; display: flex; max-width: 80%; align-items: center; justify-content: center; margin-left: auto; margin-right: auto;",
               column(
                 offset = 2,
                 width = 3,
@@ -84,7 +84,8 @@ mod_table_ui <- function(id){
                 )
               ),
               column(
-                3,
+                # offset = 1,
+                width = 3,
                 tagAppendAttributes(
                   shinydashboard::valueBox("",
                     subtitle = ""
@@ -93,7 +94,8 @@ mod_table_ui <- function(id){
                 )
               ),
               column(
-                3,
+                # offset = 1,
+                width = 3,
                 tagAppendAttributes(
                   shinydashboard::valueBox("",
                     subtitle = ""
@@ -199,7 +201,7 @@ mod_table_server <- function(input, output, session){
         fill_colors = reactable::colDef(show = FALSE),
         location = reactable::colDef(name = "LOCATION"),
         max_value = reactable::colDef(show = FALSE),
-        value = reactable::colDef(name = "PER GALLON", align = "center",
+        value = reactable::colDef(name = "$/GAL", align = "center",
           cell = reactablefmtr::data_bars(.,
                                           background = "transparent",
                                           text_position = "center",
@@ -209,21 +211,21 @@ mod_table_server <- function(input, output, session){
                                           fill_color_ref = "fill_colors",
                                           number_fmt = scales::dollar_format(accuracy = 0.01))
         ),
-        wow = reactable::colDef(name = "VS <br> LAST WK", align = "center", maxWidth = 66, 
+        wow = reactable::colDef(name = "VS <br> LAST WK", align = "center", maxWidth = 65, 
                                 style = list(background = "rgba(0, 0, 0, 0.03)"),
           cell = reactablefmtr::icon_trend_indicator(.,
                                                      icons = "angle-double",
                                                      colors = c("darkgreen","grey","red"),
                                                      number_fmt = change_format)
         ),
-        mom = reactable::colDef(name = "VS <br> LAST MO", align = "center", maxWidth = 66,
+        mom = reactable::colDef(name = "VS <br> LAST MO", align = "center", maxWidth = 65,
                                 style = list(background = "rgba(0, 0, 0, 0.03)"),
           cell = reactablefmtr::icon_trend_indicator(.,
                                                      icons = "angle-double",
                                                      colors = c("darkgreen","grey","red"),
                                                      number_fmt = change_format)
         ),
-        yoy = reactable::colDef(name = "VS <br> LAST YR", align = "center", maxWidth = 66, 
+        yoy = reactable::colDef(name = "VS <br> LAST YR", align = "center", maxWidth = 65, 
                                 style = list(background = "rgba(0, 0, 0, 0.03)"),
           cell = reactablefmtr::icon_trend_indicator(.,
                                                      icons = "angle-double",

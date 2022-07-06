@@ -30,7 +30,7 @@ mod_chart_ui <- function(id){
         fullPage::fullSlide(
           fullPage::fullContainer(
           fullPage::fullRow(
-          br(),br(),br(),    
+          br(),br(),br(),
           shinyWidgets::radioGroupButtons(
             inputId = ns("selectgas"),
             label = h5("Gas Type:"),
@@ -40,30 +40,38 @@ mod_chart_ui <- function(id){
               yes = icon("gas-pump")
             )
           ),
-          column(width = 3,
-                 offset = 3,
+          column(width = 4,
+                 offset = 2,
           shinyWidgets::pickerInput(
             inputId = ns("selectlocation"),
-            label = "Location: ",
+            label = "Location:",
             choices = UScities,
             selected = "Boston, MA",
+            width = "fit",
             choicesOpt = list(
               content = sprintf("<span class='dropdown'>%s</span>", UScities)
             ),
             options = list(
               style = "btn-default",
-              size = 11,
-              title = "Select City: "
+              size = length(UScities)
             ),
             multiple = FALSE
           )),
           column(width = 3,
-          shinyWidgets::sliderTextInput(
-             inputId = ns("selectyear"),
-             label = "Start Year:",
-             grid = TRUE,
-             force_edges = TRUE,
-             choices = years
+          shinyWidgets::pickerInput(
+            inputId = ns("selectyear"),
+            label = "Start Year:",
+            choices = years,
+            selected = "2007",
+            width = "fit",
+            choicesOpt = list(
+              content = sprintf("<span class='dropdown'>%s</span>", years)
+            ),
+            options = list(
+              style = "btn-default",
+              size = length(years)
+            ),
+            multiple = FALSE
           ))),
             highcharter::highchartOutput(ns("waterfall"), height = "55vh")
           ))
@@ -105,13 +113,11 @@ mod_chart_server <- function(input, output, session){
       echarts4r::e_river(`New York, NY`, label = '{"show":"FALSE"}') |>
       echarts4r::e_river(`San Francisco, CA`, label = '{"show":"FALSE"}') |>
       echarts4r::e_river(`Seattle, WA`, label = '{"show":"FALSE"}') |>
-      echarts4r::e_tooltip(trigger = "axis",
-                           renderMode = "richText") |>
+      echarts4r::e_tooltip(trigger = "axis", renderMode = "richText") |>
       echarts4r::e_legend(textStyle = list(fontSize = "10")) |>
       echarts4r::e_color(city_cols)
   })
   
-      
   output$waterfall <- highcharter::renderHighchart({
         
     filtereddf <- gasprices::historical_data %>%
@@ -135,7 +141,7 @@ mod_chart_server <- function(input, output, session){
                       year = replace(year, nrow(waterfalldf), "This Week")) %>% 
         dplyr::mutate(color = dplyr::case_when(
           date == min(date) ~ "#999",
-          year == "This Week" ~ "#999",
+          year == "This Week" ~ "#777",
           change >= 0 ~ "#ff0000",
           change < 0 ~ "#006400",
           TRUE ~ "#777"
@@ -147,32 +153,85 @@ mod_chart_server <- function(input, output, session){
       
       custom_tooltip <- highcharter::JS(paste0("function (){
         if(this.point.index == 0){
-            return this.point.year + '<br>' + '<b>$' + Highcharts.numberFormat(this.point.values, 2) + ' per gal</b>';
+            return '<b>' + this.point.year + '</b><br>' + '$' + Highcharts.numberFormat(this.point.values, 2) + ' per gal';
         }else if(this.point.index == ",last_index,"){
-            return this.point.year + '<br>' + '<b>$' + Highcharts.numberFormat(this.point.values, 2) + ' per gal</b>';
+            return '<b>' + this.point.year + '</b><br>' + '$' + Highcharts.numberFormat(this.point.values, 2) + ' per gal';
         }else if(this.point.change > 0){
-            return this.point.year + '<br>' + '<b>+$' + Highcharts.numberFormat(this.point.change, 2) + '</b>';
+            return '<b>' + this.point.year + '</b><br>' + '+$' + Highcharts.numberFormat(this.point.change, 2);
         }else{
-            return this.point.year + '<br>' + '<b>-$' + Highcharts.numberFormat(Math.abs(this.point.change, 2)) + '</b>';
+            return '<b>' + this.point.year + '</b><br>' + '-$' + Highcharts.numberFormat(Math.abs(this.point.change, 2));
         }
       }"))
       
-    highcharter::highchart() %>%
-      highcharter::hc_xAxis(type = "category") %>%
-      highcharter::hc_add_series(data = waterfalldf, 
-                                 type = "waterfall",
-                                 borderColor = "transparent",
-                                 style = list(fontFamily = "Arsenal"),
-                                 highcharter::hcaes(x = year, y= change, isSum = a,
-                                                    color = color
-                                                    )) %>% 
-      highcharter::hc_yAxis(max = 7, title = list(text = "Dollars per Gallon"), labels = list(format = "${value:.0f}")) %>% 
-      highcharter::hc_legend(enabled = FALSE) %>% 
-      highcharter::hc_tooltip(borderWidth = 3, formatter = custom_tooltip) %>% 
-      highcharter::hc_title(
-        text = glue::glue("How {input$selectgas} Gas Prices Have Changed in {input$selectlocation} Since {input$selectyear}"),
-        style = list(fontFamily = "Arsenal",
-                     fontSize = "16px")
-      )
-      })
+      waterfalldf_neg <- waterfalldf %>% dplyr::filter(change < 0)
+      waterfalldf_pos <- waterfalldf %>% dplyr::filter(change > 0)
+      
+      highcharter::highchart() %>%
+        highcharter::hc_xAxis(type = "category") %>%
+        highcharter::hc_yAxis(
+          max = 7,
+          title = list(text = "$/gal"),
+          labels = list(format = "${value:.0f}")
+        ) %>%
+        highcharter::hc_add_series(
+          data = waterfalldf,
+          type = "waterfall",
+          borderColor = "transparent",
+          lineWidth = 1.5,
+          pointWidth = 10,
+          style = list(fontFamily = "Arsenal", fontSize = "12px"),
+          highcharter::hcaes(
+            x = year,
+            y = change,
+            isSum = a,
+            color = color
+          )
+        ) %>%
+        highcharter::hc_add_series(
+          data = waterfalldf_neg,
+          type = "line",
+          lineColor = "transparent",
+          animation = list(defer = 1),
+          marker = list(symbol = "triangle-down", radius = 12), 
+          highcharter::hcaes(
+            x = year,
+            y = values, 
+            color = color
+          )
+        ) %>%
+        highcharter::hc_add_series(
+          data = waterfalldf_pos,
+          type = "line",
+          lineColor = "transparent",
+          animation = list(defer = 1),
+          marker = list(symbol = "triangle", radius = 12),
+          highcharter::hcaes(
+            x = year,
+            y = values, 
+            color = color
+          )
+        ) %>%
+        highcharter::hc_plotOptions(
+          series = list(
+            states = list(
+              inactive = list(opacity = 1)
+            ))
+        ) %>% 
+        highcharter::hc_legend(enabled = FALSE) %>%
+        highcharter::hc_tooltip(
+          borderWidth = 3,
+          formatter = custom_tooltip,
+          crosshairs = TRUE,
+          style = list(fontFamily = "Arsenal", fontSize = "16px")
+        ) %>%
+        highcharter::hc_title(
+          text = glue::glue(
+            "How {input$selectgas} Gas Prices Have Changed in {input$selectlocation} Since {input$selectyear}"
+          ),
+          style = list(
+            fontFamily = "Arsenal",
+            fontSize = "17px"
+          )
+        ) 
+    })
 }
