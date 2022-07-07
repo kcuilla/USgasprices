@@ -72,7 +72,7 @@ mod_table_ui <- function(id){
         fullPage::fullContainer(
             tags$head(tags$script(shiny::HTML(js))),
             br(),br(),br(),
-            fluidRow(style = "border: 1px solid #999999; display: flex; max-width: 80%; align-items: center; justify-content: center; margin-left: auto; margin-right: auto;",
+            fluidRow(style = "border: 1px solid #999999; display: flex; max-width: 100%; align-items: center; justify-content: center; margin-left: auto; margin-right: auto;",
               column(
                 offset = 2,
                 width = 3,

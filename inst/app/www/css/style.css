@@ -56,6 +56,30 @@ h6, .h6 {
   justify-content: center;
 }
 
+.uscity-dropdown {
+  font-family: "Arsenal", sans-serif;
+  color: #f27405 !important;
+  font-weight: bold;
+}
+
+.year-dropdown {
+  font-family: "Arsenal", sans-serif;
+  color: #666 !important;
+  font-weight: bold;
+}
+
+.control-label {
+  font-family: "Montserrat", sans-serif;
+  color: #292929;
+  font-style: normal;
+  text-align: center;
+  margin: 3px;
+}
+
+.dropdown-item.active.selected {
+  background-color: rgba(127,127,127,0.4) !important;
+}
+
 .fp-controlArrow {
   border-color: transparent rgba(127,127,127,0.4) transparent !important;
 }
