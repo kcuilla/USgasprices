@@ -165,3 +165,8 @@ a:hover {
 .fa-github:hover {
   color: #f27405 !important;
 }
+
+.hide-column {
+  color: hsl(0, 0%, 45%);
+  font-size: 0.8125rem;
+}

@@ -4,18 +4,8 @@
 #'     DO NOT REMOVE.
 #' @import shiny
 #' @noRd
-# app_ui <- function(request) {
-#   tagList(
-#     # Leave this function for adding external resources
-#     golem_add_external_resources(),
-#     # Your application UI logic
-#     fluidPage(
-#       h1("gasprices")
-#     )
-#   )
-# }
-app_ui <- function() {
 
+app_ui <- function() {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
@@ -35,18 +25,18 @@ app_ui <- function() {
         menu = "home",
         h1(typedjs::typedOutput("title"), class = "intro"),
         tags$p(class = "footer",
-          HTML(paste0(
-            "<a href='https://uncharteddata.netlify.app/' target='_blank'><i class='fas fa-globe fa-2x' style='color:#ffffff; padding:6px;'></i></a>",
-            "<a href='https://www.linkedin.com/in/kylecuilla/' target='_blank'><i class='fab fa-linkedin-in fa-2x' style='color:#ffffff; padding:6px;'></i></a>",
-            "<a href='https://www.twitter.com/kc_analytics' target='_blank'><i class='fab fa-twitter fa-2x' style='color:#ffffff; padding:6px;'></i></a>",
-            "<a href='https://github.com/kcuilla' target='_blank'><i class='fab fa-github fa-2x' style='color:#ffffff; padding:6px;'></i></a>"))
-        )
+               HTML(
+                 paste0(
+                   "<a href='https://uncharteddata.netlify.app/' target='_blank'><i class='fas fa-globe fa-2x' style='color:#ffffff; padding:6px;'></i></a>",
+                   "<a href='https://www.linkedin.com/in/kylecuilla/' target='_blank'><i class='fab fa-linkedin-in fa-2x' style='color:#ffffff; padding:6px;'></i></a>",
+                   "<a href='https://www.twitter.com/kc_analytics' target='_blank'><i class='fab fa-twitter fa-2x' style='color:#ffffff; padding:6px;'></i></a>",
+                   "<a href='https://github.com/kcuilla' target='_blank'><i class='fab fa-github fa-2x' style='color:#ffffff; padding:6px;'></i></a>"
+                 )
+               ))
       ),
-      fullPage::fullSection(
-        center = TRUE,
-        menu = "table",
-        mod_table_ui("table")
-      ),
+      fullPage::fullSection(center = TRUE,
+                            menu = "table",
+                            mod_table_ui("table")),
       fullPage::fullSection(
         center = TRUE,
         menu = "chart",
@@ -57,29 +47,31 @@ app_ui <- function() {
         img = "www/img/keyboard.jpg",
         menu = "about",
         tags$p(class = "about-header shift-up",
-          HTML(paste0(
-            "Data sourced from the U.S. Energy Information Administration ",
-            "<a href='https://www.eia.gov/petroleum/gasdiesel/' target='_blank' class='web-link'>(EIA)</a>"))
-        ),
+               HTML(
+                 paste0(
+                   "Data sourced from the U.S. Energy Information Administration ",
+                   "<a href='https://www.eia.gov/petroleum/gasdiesel/' target='_blank' class='web-link'>(EIA)</a>"
+                 )
+               )),
         tags$p(class = "footer-about",
-          HTML(paste0(
-            "<a href='https://uncharteddata.netlify.app/' target='_blank'><i class='fas fa-globe fa-1x' style='color:#ffffff; padding:6px;'></i></a>",
-            "<a href='https://www.linkedin.com/in/kylecuilla/' target='_blank'><i class='fab fa-linkedin-in fa-1x' style='color:#ffffff; padding:6px;'></i></a>",
-            "<a href='https://www.twitter.com/kc_analytics' target='_blank'><i class='fab fa-twitter fa-1x' style='color:#ffffff; padding:6px;'></i></a>",
-            "<a href='https://github.com/kcuilla' target='_blank'><i class='fab fa-github fa-1x' style='color:#ffffff; padding:6px;'></i></a>"))
-        ),
+               HTML(
+                 paste0(
+                   "<a href='https://uncharteddata.netlify.app/' target='_blank'><i class='fas fa-globe fa-2x' style='color:#ffffff; padding:6px;'></i></a>",
+                   "<a href='https://www.linkedin.com/in/kylecuilla/' target='_blank'><i class='fab fa-linkedin-in fa-2x' style='color:#ffffff; padding:6px;'></i></a>",
+                   "<a href='https://www.twitter.com/kc_analytics' target='_blank'><i class='fab fa-twitter fa-2x' style='color:#ffffff; padding:6px;'></i></a>",
+                   "<a href='https://github.com/kcuilla' target='_blank'><i class='fab fa-github fa-2x' style='color:#ffffff; padding:6px;'></i></a>"
+                 )
+               )),
         h3(class = "light shift-up", tags$i("Data refreshed once per week by EIA")),
         h1(
           class = "shift-up",
-          tags$a("Code", href = "https://github.com/kcuilla/USgasprices", target = "_blank", class = "code-link")
+          tags$a(
+            "Code",
+            href = "https://github.com/kcuilla/USgasprices",
+            target = "_blank",
+            class = "code-link"
+          )
         )
-        # tags$cite(class = "footer",
-        #   HTML(paste0(
-        #     "<a href='https://uncharteddata.netlify.app/' target='_blank'><i class='fas fa-globe fa-2x' style='color:#ffffff; padding:6px;'></i></a>",
-        #     "<a href='https://www.linkedin.com/in/kylecuilla/' target='_blank'><i class='fab fa-linkedin-in fa-2x' style='color:#ffffff; padding:6px;'></i></a>",
-        #     "<a href='https://www.twitter.com/kc_analytics' target='_blank'><i class='fab fa-twitter fa-2x' style='color:#ffffff; padding:6px;'></i></a>",
-        #     "<a href='https://github.com/kcuilla' target='_blank'><i class='fab fa-github fa-2x' style='color:#ffffff; padding:6px;'></i></a>"))
-        # )
       )
     )
   )
@@ -93,22 +85,16 @@ app_ui <- function() {
 #' @import shiny
 #' @importFrom golem add_resource_path activate_js favicon bundle_resources
 #' @noRd
+
 golem_add_external_resources <- function() {
-
-  add_resource_path(
-    "www",
-    app_sys("app/www")
-  )
-
+  add_resource_path("www",
+                    app_sys("app/www"))
+  
   tags$head(
     golem::activate_js(),
     golem::favicon(),
     tags$link(rel = "stylesheet", type = "text/css", href = "www/css/style.css"),
-    bundle_resources(
-      path = app_sys("app/www"),
-      app_title = "gasprices"
-    )
-    # Add here other external resources
-    # for example, you can add shinyalert::useShinyalert()
+    bundle_resources(path = app_sys("app/www"),
+                     app_title = "gasprices")
   )
 }

@@ -74,7 +74,7 @@ get_gas_prices <- function(id, start = "20070101") {
     location == "Houston  All Formulations Retail Gasoline Prices" ~ "Houston, TX",
     location == "Los Angeles  All Formulations Retail Gasoline Prices" ~ "Los Angeles, CA",
     location == "Miami, FL  All Formulations Retail Gasoline Prices" ~ "Miami, FL",
-    location == "New York City  All Formulations Retail Gasoline Prices" ~ "New York, NY",
+    location == "New York City  All Formulations Retail Gasoline Prices" ~ "NYC, NY",
     location == "San Francisco  All Formulations Retail Gasoline Prices" ~ "San Francisco, CA",
     location == "Seattle, WA  All Formulations Retail Gasoline Prices" ~ "Seattle, WA",
     location == "U.S.  All Formulations Retail Gasoline Prices" ~ "U.S.",

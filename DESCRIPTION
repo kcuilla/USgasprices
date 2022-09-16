@@ -1,16 +1,18 @@
 Package: gasprices
-Title: An Amazing Shiny App
+Title: A Shiny App to Display US Gas Prices
 Version: 0.0.0.9000
 Authors@R: 
-    person("firstname", "lastname", , "your@email.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-License: What license is it under?
+    person("Kyle", "Cuilla", , "kyle.cuilla@gmail.com", role = c("aut", "cre"))
+Description: This Shiny App pulls retail gas prices from the EIA via the {eia} package
+    automatically every week through GitHub Actions. The Shiny app was built using
+    the {golem} package and contains visuals from the {reactablefmtr}, {highcharter},
+    and {ggplot2} packages. 
+License: MIT
 Depends: 
     R (>= 2.10)
 Imports: 
     config (>= 0.3.1),
     dplyr,
-    echarts4r,
     fullPage,
     golem (>= 0.3.2),
     highcharter,
