@@ -78,11 +78,11 @@ mod_table_server <- function(input, output, session){
   ns <- session$ns
 
   output$desc <- renderUI({
-    msg <- paste0("As of: ", format(max(gasprices::summary_table$updated), "%m/%d/%y"))
+    msg <- paste0("As of: ", format(max(summary_table$updated), "%m/%d/%y"))
     h5(msg)
   })
 
-  max_price <- max(gasprices::summary_table$value)
+  max_price <- max(summary_table$value)
   
   ### get width from browser
   device_reactive <- reactive({
@@ -121,7 +121,7 @@ mod_table_server <- function(input, output, session){
         "percent" = scales::percent_format(accuracy = 0.1)
       )
       
-      gasprices::summary_table %>%
+      summary_table %>%
         dplyr::filter(type == input$type) %>%
         dplyr::select(1:7, dplyr::starts_with(input$change)) %>%
         dplyr::rename(wow = 8, mom = 9, yoy = 10) %>%
@@ -217,13 +217,13 @@ mod_table_server <- function(input, output, session){
   
   
   output$desc2 <- renderUI({
-    msg <- paste0("As of: ", format(max(gasprices::summary_table$updated), "%m/%d/%y"))
+    msg <- paste0("As of: ", format(max(summary_table$updated), "%m/%d/%y"))
     msg
   })
 
 
   output$linechart <- highcharter::renderHighchart({
-    test <- gasprices::historical_data |>
+    lc_data <- historical_data |>
       dplyr::filter(date >= (max(date) - 734)) |>
       dplyr::select(date, type, input$location) |>
       tidyr::pivot_wider(
@@ -240,8 +240,8 @@ mod_table_server <- function(input, output, session){
       dplyr::mutate(avg = rowMeans(cbind(lwr, mid, upr), na.rm = TRUE),
                     date = format(as.Date(date), "%m-%d-%Y"))
     
-    test2 <-
-      highcharter::list_parse2(test |> dplyr::select(-c(mid, avg)))
+    lc_data_highchart <-
+      highcharter::list_parse2(lc_data |> dplyr::select(-c(mid, avg)))
     
     chart_tooltip <- highcharter::JS(
       paste0(
@@ -267,14 +267,14 @@ mod_table_server <- function(input, output, session){
         labels = list(format = "${value:.0f}")
       ) |>
       highcharter::hc_add_series(
-        data = test2,
+        data = lc_data_highchart,
         name = "Range",
         type = "arearange",
         color = "#f27405",
         opacity = 0.5
       ) |>
       highcharter::hc_add_series(
-        data = test,
+        data = lc_data,
         name = "Avg.",
         type = "line",
         lineWidth = 4,
@@ -307,7 +307,7 @@ mod_table_server <- function(input, output, session){
     lon = c(-71.1,-87.6,-81.5,-105,-95.4,-118,-80.3,-73.9,-122,-122,-95.7)
   )
   
-  city_data <- gasprices::summary_table |> 
+  city_data <- summary_table |> 
     dplyr::mutate(city = gsub("(.*),.*", "\\1", location)) |> 
     dplyr::inner_join(city_locations) |> 
     dplyr::mutate(map_label = dplyr::case_when(
@@ -321,7 +321,7 @@ mod_table_server <- function(input, output, session){
   cities_t <- usmap::usmap_transform(city_data)
 
   make_tooltip_table <- function(city) {
-    df <- gasprices::historical_data |>
+    df <- historical_data |>
       dplyr::mutate(year = strftime(date, format = "%Y")) |>
       dplyr::filter(year == max(year)) |>
       dplyr::arrange(date, city) |>
@@ -330,7 +330,7 @@ mod_table_server <- function(input, output, session){
     
     limits <- range(df$value)
     
-    table_test <- df |>
+    tooltip_table <- df |>
       dplyr::group_by(Type = type, location) |>
       dplyr::summarize(
         `$/gal` = tail(value, 1),
@@ -355,7 +355,7 @@ mod_table_server <- function(input, output, session){
       dplyr::select(-c(location, data, color_assign)) |>
       dplyr::arrange(`$/gal`)
     
-    table_test |>
+    tooltip_table |>
       dplyr::select(-plot) |>
       dplyr::mutate(`$/gal` = scales::dollar(`$/gal`)) |>
       dplyr::mutate(`YTD Trend` = "") |>
