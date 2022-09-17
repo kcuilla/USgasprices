@@ -514,37 +514,6 @@
         "shiny"
       ]
     },
-    "gasprices": {
-      "Package": "gasprices",
-      "Version": "0.0.0.9000",
-      "Source": "unknown",
-      "Hash": "e65ebc7764b0b952c40f75380717de73",
-      "Requirements": [
-        "config",
-        "dplyr",
-        "fullPage",
-        "ggiraph",
-        "ggplot2",
-        "ggtext",
-        "glue",
-        "golem",
-        "highcharter",
-        "hover",
-        "kableExtra",
-        "magrittr",
-        "purrr",
-        "reactable",
-        "reactablefmtr",
-        "rgdal",
-        "scales",
-        "shiny",
-        "shinyWidgets",
-        "shinybrowser",
-        "tidyr",
-        "typedjs",
-        "usmap"
-      ]
-    },
     "generics": {
       "Package": "generics",
       "Version": "0.1.2",
