@@ -26,6 +26,7 @@ Imports:
     purrr,
     reactable,
     reactablefmtr,
+    rgdal,
     scales,
     shiny (>= 1.7.1),
     shinybrowser,
