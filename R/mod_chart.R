@@ -8,20 +8,20 @@
 #'
 #' @importFrom shiny NS tagList
 
-UScities <- c("U.S.","Boston, MA","Chicago, IL","Cleveland, OH","Denver, CO","Houston, TX","Los Angeles, CA","Miami, FL","NYC, NY","San Francisco, CA","Seattle, WA")
-gastypes <- c("Regular","Midgrade","Premium")
-
-years <- historical_data |>
-  dplyr::mutate(year = strftime(date, format = "%Y")) |> 
-  dplyr::arrange(year) |> 
-  dplyr::pull(year) |> 
-  unique()
-
-years <- years[-length(years)]
-     
 mod_chart_ui <- function(id) {
   ns <- NS(id)
   
+  UScities <- c("U.S.","Boston, MA","Chicago, IL","Cleveland, OH","Denver, CO","Houston, TX","Los Angeles, CA","Miami, FL","NYC, NY","San Francisco, CA","Seattle, WA")
+gastypes <- c("Regular","Midgrade","Premium")
+
+  years <- gasprices::historical_data |>
+    dplyr::mutate(year = strftime(date, format = "%Y")) |> 
+    dplyr::arrange(year) |> 
+    dplyr::pull(year) |> 
+    unique()
+  
+  years <- years[-length(years)]
+    
   fullPage::fullSlide(
     fullPage::fullContainer(
       center = TRUE,
@@ -160,7 +160,7 @@ mod_chart_server <- function(input, output, session) {
   )
   
   output$areachart <- highcharter::renderHighchart({
-    historical_data |>
+    gasprices::historical_data |>
       dplyr::filter(type == input$selectgasarea) |>
       dplyr::select(1, location = input$arealocation) |>
       highcharter::hchart(
@@ -254,7 +254,7 @@ mod_chart_server <- function(input, output, session) {
   })
   
   observeEvent(input$add, {
-    us_series <- historical_data |>
+    us_series <- gasprices::historical_data |>
       dplyr::filter(type == "Regular") |>
       dplyr::select(1, location = "U.S.")
     
@@ -277,7 +277,7 @@ mod_chart_server <- function(input, output, session) {
   })
   
   output$waterfall <- highcharter::renderHighchart({
-    filtereddf <- historical_data |>
+    filtereddf <- gasprices::historical_data |>
       dplyr::filter(type == input$selectgas) |>
       dplyr::select(1, location = input$selectlocation) |>
       dplyr::mutate(

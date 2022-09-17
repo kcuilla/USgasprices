@@ -78,11 +78,11 @@ mod_table_server <- function(input, output, session){
   ns <- session$ns
 
   output$desc <- renderUI({
-    msg <- paste0("As of: ", format(max(summary_table$updated), "%m/%d/%y"))
+    msg <- paste0("As of: ", format(max(gasprices::summary_table$updated), "%m/%d/%y"))
     h5(msg)
   })
 
-  max_price <- max(summary_table$value)
+  max_price <- max(gasprices::summary_table$value)
   
   ### get width from browser
   device_reactive <- reactive({
@@ -121,7 +121,7 @@ mod_table_server <- function(input, output, session){
         "percent" = scales::percent_format(accuracy = 0.1)
       )
       
-      summary_table %>%
+      gasprices::summary_table %>%
         dplyr::filter(type == input$type) %>%
         dplyr::select(1:7, dplyr::starts_with(input$change)) %>%
         dplyr::rename(wow = 8, mom = 9, yoy = 10) %>%
@@ -217,7 +217,7 @@ mod_table_server <- function(input, output, session){
   
   
   output$desc2 <- renderUI({
-    msg <- paste0("As of: ", format(max(summary_table$updated), "%m/%d/%y"))
+    msg <- paste0("As of: ", format(max(gasprices::summary_table$updated), "%m/%d/%y"))
     msg
   })
 
@@ -307,7 +307,7 @@ mod_table_server <- function(input, output, session){
     lon = c(-71.1,-87.6,-81.5,-105,-95.4,-118,-80.3,-73.9,-122,-122,-95.7)
   )
   
-  city_data <- summary_table |> 
+  city_data <- gasprices::summary_table |> 
     dplyr::mutate(city = gsub("(.*),.*", "\\1", location)) |> 
     dplyr::inner_join(city_locations) |> 
     dplyr::mutate(map_label = dplyr::case_when(
