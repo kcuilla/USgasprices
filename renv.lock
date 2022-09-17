@@ -514,6 +514,37 @@
         "shiny"
       ]
     },
+    "gasprices": {
+      "Package": "gasprices",
+      "Version": "0.0.0.9000",
+      "Source": "unknown",
+      "Hash": "e65ebc7764b0b952c40f75380717de73",
+      "Requirements": [
+        "config",
+        "dplyr",
+        "fullPage",
+        "ggiraph",
+        "ggplot2",
+        "ggtext",
+        "glue",
+        "golem",
+        "highcharter",
+        "hover",
+        "kableExtra",
+        "magrittr",
+        "purrr",
+        "reactable",
+        "reactablefmtr",
+        "rgdal",
+        "scales",
+        "shiny",
+        "shinyWidgets",
+        "shinybrowser",
+        "tidyr",
+        "typedjs",
+        "usmap"
+      ]
+    },
     "generics": {
       "Package": "generics",
       "Version": "0.1.2",
@@ -539,10 +570,10 @@
     },
     "ggiraph": {
       "Package": "ggiraph",
-      "Version": "0.8.2",
+      "Version": "0.8.3",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "18c5eda316f400ce587cacb8f5402b96",
+      "Hash": "f584bc4dd1ab1c65e40437fce876578e",
       "Requirements": [
         "Rcpp",
         "ggplot2",
@@ -1318,6 +1349,16 @@
       "Repository": "CRAN",
       "Hash": "6a38294e7d12f5d8e656b08c5bd8ae34",
       "Requirements": []
+    },
+    "rgdal": {
+      "Package": "rgdal",
+      "Version": "1.5-32",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "7e8f18c3a55c90a44ea05e0620c05a7e",
+      "Requirements": [
+        "sp"
+      ]
     },
     "rjson": {
       "Package": "rjson",

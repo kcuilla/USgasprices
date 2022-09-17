@@ -23,6 +23,7 @@ Imports:
     hover,
     kableExtra,
     magrittr,
+    maptools,
     purrr,
     reactable,
     reactablefmtr,
@@ -35,7 +36,6 @@ Imports:
     typedjs,
     usmap
 Suggests: 
-    maptools,
     spelling,
     testthat (>= 3.0.0),
     usethis
