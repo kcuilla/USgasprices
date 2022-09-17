@@ -330,7 +330,7 @@ mod_table_server <- function(input, output, session){
     
     limits <- range(df$value)
     
-    table_test <- df |>
+    tooltip_table <- df |>
       dplyr::group_by(Type = type, location) |>
       dplyr::summarize(
         `$/gal` = tail(value, 1),
@@ -355,7 +355,7 @@ mod_table_server <- function(input, output, session){
       dplyr::select(-c(location, data, color_assign)) |>
       dplyr::arrange(`$/gal`)
     
-    table_test |>
+    tooltip_table |>
       dplyr::select(-plot) |>
       dplyr::mutate(`$/gal` = scales::dollar(`$/gal`)) |>
       dplyr::mutate(`YTD Trend` = "") |>
@@ -366,7 +366,7 @@ mod_table_server <- function(input, output, session){
       ) |>
       kableExtra::column_spec(1, width = "5em") |>
       kableExtra::column_spec(2, width = "3em") |>
-      kableExtra::column_spec(3, image = table_test$plot) |>
+      kableExtra::column_spec(3, image = tooltip_table$plot) |>
       kableExtra::kable_styling(htmltable_class = "lighttable-minimal", html_font = "Arsenal")
   }
     

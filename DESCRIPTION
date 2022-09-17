@@ -23,10 +23,12 @@ Imports:
     reactablefmtr,
     scales,
     shiny (>= 1.7.1),
+    shinybrowser,
     shinydashboard,
     shinyWidgets,
     tidyr,
-    typedjs
+    typedjs,
+    usethis
 Suggests: 
     spelling,
     testthat (>= 3.0.0)
