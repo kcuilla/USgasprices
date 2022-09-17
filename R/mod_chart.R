@@ -11,7 +11,7 @@
 UScities <- c("U.S.","Boston, MA","Chicago, IL","Cleveland, OH","Denver, CO","Houston, TX","Los Angeles, CA","Miami, FL","NYC, NY","San Francisco, CA","Seattle, WA")
 gastypes <- c("Regular","Midgrade","Premium")
 
-years <- gasprices::historical_data |>
+years <- historical_data |>
   dplyr::mutate(year = strftime(date, format = "%Y")) |> 
   dplyr::arrange(year) |> 
   dplyr::pull(year) |> 
@@ -160,7 +160,7 @@ mod_chart_server <- function(input, output, session) {
   )
   
   output$areachart <- highcharter::renderHighchart({
-    gasprices::historical_data |>
+    historical_data |>
       dplyr::filter(type == input$selectgasarea) |>
       dplyr::select(1, location = input$arealocation) |>
       highcharter::hchart(
@@ -254,13 +254,13 @@ mod_chart_server <- function(input, output, session) {
   })
   
   observeEvent(input$add, {
-    testing <- gasprices::historical_data |>
+    us_series <- historical_data |>
       dplyr::filter(type == "Regular") |>
       dplyr::select(1, location = "U.S.")
     
     highcharter::highchartProxy(ns("areachart")) |>
       highcharter::hcpxy_add_series(
-        data = testing,
+        data = us_series,
         id = "U.S. Avg.",
         type = "area",
         highcharter::hcaes(x = date, y = location),
@@ -277,7 +277,7 @@ mod_chart_server <- function(input, output, session) {
   })
   
   output$waterfall <- highcharter::renderHighchart({
-    filtereddf <- gasprices::historical_data |>
+    filtereddf <- historical_data |>
       dplyr::filter(type == input$selectgas) |>
       dplyr::select(1, location = input$selectlocation) |>
       dplyr::mutate(
