@@ -2,7 +2,7 @@
 
 body {
   font-family: "Arsenal", sans-serif;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
 }
 
 .h1, .h2, .h3, .h4, .h5 {
@@ -27,7 +27,7 @@ h5, .h5 {
 
 h6, .h6 {
   font-family: "Roboto", sans-serif;
-  font-size: 1.8rem;
+  font-size: 1.9rem;
   color: #292929;
   font-style: normal;
 }
@@ -89,13 +89,13 @@ h6, .h6 {
   color: #FFFFFF;
   font-style: normal;
   font-weight: normal;
-  font-size: 2.5rem;
+  font-size: 2.6rem;
   bottom: 0;
 }
 
 .intro {
   font-family: "Oswald", sans-serif;
-  font-size: 5.6rem;
+  font-size: 5.7rem;
   font-style: normal;
   font-weight: 700;
   letter-spacing: 2px;
@@ -107,14 +107,14 @@ h6, .h6 {
 
 .dropdown {
   font-family: "Roboto", sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   color: #292929;
   font-style: normal;
 }
 
 .code-link {
   color: #f27405 !important;
-  font-size: 5.8rem;
+  font-size: 5.7rem;
 }
 
 .web-link {

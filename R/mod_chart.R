@@ -43,7 +43,7 @@ gastypes <- c("Regular","Midgrade","Premium")
             inputId = ns("arealocation"),
             label = NULL,
             choices = cities,
-            selected = "Boston, MA",
+            selected = "Los Angeles, CA",
             choicesOpt = list(content = sprintf(
               "<span class='dropdown'>%s</span>", cities
             )),
@@ -69,7 +69,7 @@ gastypes <- c("Regular","Midgrade","Premium")
           )
         )
       ),
-      highcharter::highchartOutput(ns("areachart"), height = "60vh")
+      highcharter::highchartOutput(ns("areachart"), height = "55vh")
     ),
     fullPage::fullSlide(
       fullPage::fullContainer(
@@ -118,7 +118,8 @@ gastypes <- c("Regular","Midgrade","Premium")
             )
           )
         ),
-        highcharter::highchartOutput(ns("waterfall"), height = "60vh")
+        highcharter::highchartOutput(ns("waterfall"), height = "55vh"),
+        shinybrowser::detect()
       )
     )
   )
@@ -130,6 +131,15 @@ gastypes <- c("Regular","Midgrade","Premium")
 
 mod_chart_server <- function(input, output, session) {
   ns <- session$ns
+  
+  ### get width from browser
+  device_reactive <- reactive({
+    if (as.numeric(shinybrowser::get_width()) <= 480) {
+      "mobile"
+    } else {
+      "computer"
+    }
+  })
   
   observeEvent(input$add, {
     insertUI(
@@ -163,13 +173,25 @@ mod_chart_server <- function(input, output, session) {
     gasprices::historical_data |>
       dplyr::filter(type == input$selectgasarea) |>
       dplyr::select(1, location = input$arealocation) |>
+      dplyr::mutate(data_labels = dplyr::case_when(
+        location == max(location) ~ glue::glue("<span style='color:red;'>Highest: ${location}</span> <br> <i>{format(date, '%b %d, %Y')}</i>"),
+        location == min(location) ~ glue::glue("<span style='color:darkgreen;'>Lowest: ${location}</span> <br> <i>{format(date, '%b %d, %Y')}</i>"),
+        TRUE ~ "" 
+      )) |>
       highcharter::hchart(
         type = "area",
         highcharter::hcaes(x = date, y = location),
         color = "#f27405",
         lineWidth = 3,
         fillOpacity = 0.2,
-        name = input$arealocation
+        name = input$arealocation,
+        dataLabels = list(
+          allowOverlap = TRUE,
+          enabled = TRUE,
+          formatter = highcharter::JS(
+          "function(){return(this.point.data_labels)}"
+          ) 
+        )
       ) |>
       highcharter::hc_yAxis(
         min = 0,
@@ -188,40 +210,40 @@ mod_chart_server <- function(input, output, session) {
         plotLines = list(
           list(
             value = as.Date("2007-12-31") |> highcharter::datetime_to_timestamp(),
-            color = "#333333",
+            color = "#888888",
             zIndex = 2,
             label = list(
               text = "The Great Recession",
               style = list(
                 fontFamily = "Roboto",
-                fontSize = "12px",
-                color = "#333333"
+                fontSize = "11px",
+                color = "#888888"
               )
             )
           ),
           list(
             value = as.Date("2020-03-11") |> highcharter::datetime_to_timestamp(),
-            color = "#333333",
+            color = "#888888",
             zIndex = 2,
             label = list(
               text = "COVID-19 Pandemic",
               style = list(
                 fontFamily = "Roboto",
-                fontSize = "12px",
-                color = "#333333"
+                fontSize = "11px",
+                color = "#888888"
               )
             )
           ),
           list(
             value = as.Date("2022-02-24") |> highcharter::datetime_to_timestamp(),
-            color = "#333333",
+            color = "#888888",
             zIndex = 2,
             label = list(
               text = "Russian Invasion of Ukraine",
               style = list(
                 fontFamily = "Roboto",
-                fontSize = "12px",
-                color = "#333333"
+                fontSize = "11px",
+                color = "#888888"
               )
             )
           )
@@ -235,8 +257,8 @@ mod_chart_server <- function(input, output, session) {
         useHTML = TRUE,
         xDateFormat = '<b>%b %d, %Y</b>',
         headerFormat = '<table style="width: 100%">
-                       <tr><th style="font-size:12px; padding-bottom:5px; border-bottom:1px solid lightgrey;">{point.key}</th>
-                       <th style="font-size:12px; padding-bottom:5px; border-bottom:1px solid lightgrey;"></th></tr>',
+                       <tr><th style="font-size:14px; padding-bottom:5px; border-bottom:1px solid lightgrey;">{point.key}</th>
+                       <th style="font-size:14px; padding-bottom:5px; border-bottom:1px solid lightgrey;"></th></tr>',
         pointFormat = '<tr><td style=" padding-top:2px; color:{series.color};"><b>{series.name}:</b></td>
                       <td style="padding-top:2px; padding-left:5px;"><b>${point.y:.2f}</b></td></tr>',
         footerFormat = '</table>',
@@ -247,7 +269,7 @@ mod_chart_server <- function(input, output, session) {
         style = list(color = "#333333"),
         useHTML = TRUE,
         text = glue::glue(
-          "Cost per gallon of <span style='text-transform:lowercase;'>{input$selectgasarea}</span> gas since 2007"
+          "Cost per gal. of <span style='text-transform:lowercase;'>{input$selectgasarea}</span> gas since 2007"
         )
       ) |>
       highcharter::hc_add_theme(highcharter::hc_theme_bloom())
@@ -347,6 +369,15 @@ mod_chart_server <- function(input, output, session) {
     
     theUS <- ifelse(input$selectlocation == "U.S.", "the ", "")
     
+    build_waterfall <- function(type) {
+      if (type == "mobile") {
+        bar_width <- 6
+        arrow_radius <- 8
+      } else {
+        bar_width <- 12
+        arrow_radius <- 16
+      }
+    
     highcharter::highchart() |>
       highcharter::hc_xAxis(type = "category") |>
       highcharter::hc_yAxis(
@@ -361,7 +392,7 @@ mod_chart_server <- function(input, output, session) {
         type = "waterfall",
         borderColor = "transparent",
         lineWidth = 1.5,
-        pointWidth = 6,
+        pointWidth = bar_width,
         minPointLength = 3,
         style = list(fontFamily = "Arsenal", fontSize = "12px"),
         highcharter::hcaes(
@@ -376,7 +407,7 @@ mod_chart_server <- function(input, output, session) {
         type = "line",
         lineColor = "transparent",
         animation = list(defer = 1),
-        marker = list(symbol = "triangle-down", radius = 8),
+        marker = list(symbol = "triangle-down", radius = arrow_radius),
         highcharter::hcaes(x = year,
                            y = values,
                            color = color)
@@ -386,7 +417,7 @@ mod_chart_server <- function(input, output, session) {
         type = "line",
         lineColor = "transparent",
         animation = list(defer = 1),
-        marker = list(symbol = "triangle", radius = 8),
+        marker = list(symbol = "triangle", radius = arrow_radius),
         highcharter::hcaes(x = year,
                            y = values,
                            color = color)
@@ -404,17 +435,19 @@ mod_chart_server <- function(input, output, session) {
           "In ",
           theUS,
           "<span style='color:#f27405; font-weight:bold;'>{input$selectlocation}</span>,
-            the cost of <span style='font-style:italic; text-transform:lowercase;'>{input$selectgas}</span>
-            gas <span style='color:#7405f2; font-weight: bold;'>this week</span>
-            is <span style='color:{gasprice_diff$color_indicator}; font-weight: bold;'>${gasprice_diff$text_difference} {gasprice_diff$text_indicator}</span>
-            per gallon compared to <span style='color:#666; font-weight: bold;'>{input$selectyear}</span>"
+            a gallon of <span style='text-transform:lowercase;'>{input$selectgas}</span>
+            gas costs <span style='color:{gasprice_diff$color_indicator}; font-weight: bold;'>${gasprice_diff$text_difference} {gasprice_diff$text_indicator}</span>
+            <span style='color:#7405f2; font-weight: bold;'>this week</span>
+            then it did in <span style='color:#666; font-weight: bold;'>{input$selectyear}</span>"
         ),
         useHTML = TRUE,
         style = list(
           fontFamily = "Arsenal",
-          fontSize = "17px",
-          color = "#777"
+          fontSize = "18px",
+          color = "#666666"
         )
       )
+    }
+    build_waterfall(type = device_reactive())
   })
 }

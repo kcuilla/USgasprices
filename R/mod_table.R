@@ -61,8 +61,8 @@ mod_table_ui <- function(id) {
     fullPage::fullSlide(
       fullPage::fullContainer(
         br(),br(),br(),br(),
-        fullPage::fullContainer(br(),br(),br(),br(),
-                                ggiraph::ggiraphOutput(ns("map"))),
+        fullPage::fullContainer(br(),br(),br(),
+                                ggiraph::ggiraphOutput(ns("map"), height = "85vh")),
         br(),br(),
         uiOutput(ns("desc2"), class = "chart-as-of-date")
       )
@@ -106,11 +106,11 @@ mod_table_server <- function(input, output, session){
         losangeles <- "LA, CA"
       } else {
         showhide <- TRUE
-        location_width <- 130
+        location_width <- 140
         gal_width <- 175
         change_width <- 80
-        font_size <- 14
-        header_font_size <- 12
+        font_size <- 16
+        header_font_size <- 14
         sanfran <- "San Francisco, CA"
         losangeles <- "Los Angeles, CA"
       }
@@ -165,7 +165,7 @@ mod_table_server <- function(input, output, session){
                 background = "transparent",
                 text_position = "center",
                 animation = "width 0.4s linear",
-                bar_height = 26,
+                bar_height = 28,
                 max_value = max_price,
                 fill_color_ref = "fill_colors",
                 fill_opacity = 0.9,
@@ -367,7 +367,7 @@ mod_table_server <- function(input, output, session){
       kableExtra::column_spec(1, width = "5em") |>
       kableExtra::column_spec(2, width = "3em") |>
       kableExtra::column_spec(3, image = tooltip_table$plot) |>
-      kableExtra::kable_styling(htmltable_class = "lighttable-minimal", html_font = "Arsenal")
+      kableExtra::kable_styling(font_size = 18, htmltable_class = "lighttable-minimal", html_font = "Arsenal")
   }
     
     cities_t <- cities_t |>
@@ -406,8 +406,8 @@ mod_table_server <- function(input, output, session){
         ggplot2::theme(
           plot.title = ggplot2::element_text(
             color = "#333333",
-            size = 14,
-            hjust = 0.5,
+            size = 15,
+            hjust = 0.55,
             face = "bold"
           ),
           legend.position = "none"
