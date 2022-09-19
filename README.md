@@ -31,4 +31,4 @@ The site is optimized for viewing on both mobile and desktop devices. I used the
 
 Mobile             |  Desktop
 :-------------------------:|:-------------------------:
-<img src="https://raw.githubusercontent.com/kcuilla/USgasprices/main/imgs/waterfall_mobile.jpg" height=500/>  |  <img src="https://raw.githubusercontent.com/kcuilla/USgasprices/main/imgs/waterfall_desktop.jpg" height=600/>
+<img src="https://raw.githubusercontent.com/kcuilla/USgasprices/main/imgs/waterfall_mobile.jpg" height=300/>  |  <img src="https://raw.githubusercontent.com/kcuilla/USgasprices/main/imgs/waterfall_desktop.jpg" height=500/>
