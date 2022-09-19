@@ -24,4 +24,5 @@ A huge thank you to John for creating many packages that are used for this app, 
 
 The site is optimized for viewing on both mobile and desktop devices. I used the {shinybrowser} package to detect the user's device and display the visuals so that they optimally fit on the user's device. 
 
-<img src="https://raw.githubusercontent.com/kcuilla/USgasprices/main/demo/gaspriceshinytour.gif" />
+<img src="https://raw.githubusercontent.com/kcuilla/USgasprices/main/imgs/waterfall_mobile.jpg" />
+<img src="https://raw.githubusercontent.com/kcuilla/USgasprices/main/imgs/waterfall_desktop.jpg" />
