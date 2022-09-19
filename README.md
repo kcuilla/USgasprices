@@ -2,7 +2,7 @@
 
 The [U.S. Gas Prices](https://kcuilla.shinyapps.io/usgasprices/) app displays the latest weekly gas prices from major cities across the U.S.. The data is pulled automatically from the U.S. Energy Information Administration's [weekly gas update](https://www.eia.gov/petroleum/gasdiesel/).
 
-<img src="https://raw.githubusercontent.com/kcuilla/USgasprices/main/demo/streamgraph.PNG" />
+<img src="https://raw.githubusercontent.com/kcuilla/USgasprices/main/imgs/demo.PNG" />
 
 ## About the data
 
@@ -20,7 +20,7 @@ The framework for this Shiny app was made using the [{golem}](https://thinkr-ope
 
 A huge thank you to John for creating many packages that are used for this app, including the aforementioned {fullPage} package, [{echarts4r}](https://echarts4r.john-coene.com/index.html) and [{typedjs}](https://github.com/JohnCoene/typedjs). This app was also largely inspired by John's [Freedom of the Press](https://gallery.shinyapps.io/freedom-press-index/?_ga=2.217079061.223099009.1656718664-1490211595.1582849274) app which can be found in RStudio's [Shiny Gallery](https://shiny.rstudio.com/gallery/).
 
-## Mobile & Desktop Friendly
+## Mobile & Desktop friendly
 
 The site is optimized for viewing on both mobile and desktop devices. I used the {shinybrowser} package to detect the user's device and display the visuals so that they optimally fit on the user's device. 
 
