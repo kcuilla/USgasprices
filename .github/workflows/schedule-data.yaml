@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: '30 22 * * 2'
+    - cron: '30 23 * * 1'
 
 name: Get EIA Gas Data
 

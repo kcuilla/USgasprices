@@ -428,7 +428,7 @@ mod_chart_server <- function(input, output, session) {
         borderWidth = 3,
         formatter = waterfall_tooltip,
         crosshairs = TRUE,
-        style = list(fontFamily = "Arsenal", fontSize = "16px")
+        style = list(fontFamily = "Arsenal", fontSize = "18px")
       ) |>
       highcharter::hc_title(
         text = glue::glue(

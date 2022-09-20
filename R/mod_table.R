@@ -62,8 +62,7 @@ mod_table_ui <- function(id) {
       fullPage::fullContainer(
         br(),br(),br(),br(),
         fullPage::fullContainer(br(),br(),br(),
-                                ggiraph::ggiraphOutput(ns("map"), height = "85vh")),
-        br(),br(),
+                                ggiraph::ggiraphOutput(ns("map"), height = "80vh")),
         uiOutput(ns("desc2"), class = "chart-as-of-date")
       )
     )
@@ -102,15 +101,17 @@ mod_table_server <- function(input, output, session){
         change_width <- 70
         font_size <- 14
         header_font_size <- 12
+        height_of_bars <- 28
         sanfran <- "SF, CA"
         losangeles <- "LA, CA"
       } else {
         showhide <- TRUE
-        location_width <- 140
-        gal_width <- 175
-        change_width <- 80
-        font_size <- 16
-        header_font_size <- 14
+        location_width <- 165
+        gal_width <- 270
+        change_width <- 95
+        font_size <- 18
+        header_font_size <- 16
+        height_of_bars <- 34
         sanfran <- "San Francisco, CA"
         losangeles <- "Los Angeles, CA"
       }
@@ -165,7 +166,7 @@ mod_table_server <- function(input, output, session){
                 background = "transparent",
                 text_position = "center",
                 animation = "width 0.4s linear",
-                bar_height = 28,
+                bar_height = height_of_bars,
                 max_value = max_price,
                 fill_color_ref = "fill_colors",
                 fill_opacity = 0.9,
