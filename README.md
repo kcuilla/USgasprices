@@ -22,10 +22,12 @@ A huge thank you to John for creating many packages that are used for this app, 
 
 The packages used to create the visualizations include [{highcharter}](https://jkunst.com/highcharter/), [{ggiraph}](https://davidgohel.github.io/ggiraph/#:~:text=ggiraph%20is%20a%20tool%20that,when%20used%20in%20shiny%20applications.), and [{reactablefmtr}](https://kcuilla.github.io/reactablefmtr/).
 
-An example of some of the user-interactivity features can be seen below:
+An example of the user-interactivity features can be seen below:
 
 <img src="https://raw.githubusercontent.com/kcuilla/USgasprices/main/imgs/gas_linechart_demo.gif">
 <img src="https://raw.githubusercontent.com/kcuilla/USgasprices/main/imgs/gas_map_demo.gif">
+<img src="https://raw.githubusercontent.com/kcuilla/USgasprices/main/imgs/gas_table_demo.gif">
+<img src="https://raw.githubusercontent.com/kcuilla/USgasprices/main/imgs/gas_waterfall_demo_ex.gif">
 
 ## Mobile & Desktop friendly
 
