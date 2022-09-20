@@ -1,6 +1,8 @@
 on:
   schedule:
     - cron: '30 23 * * 1'
+  push:
+    branches: main
 
 name: Get EIA Gas Data
 
