@@ -188,6 +188,7 @@ mod_chart_server <- function(input, output, session) {
         dataLabels = list(
           allowOverlap = TRUE,
           enabled = TRUE,
+          style = list(fontSize = "12px"),
           formatter = highcharter::JS(
           "function(){return(this.point.data_labels)}"
           ) 
@@ -337,7 +338,7 @@ mod_chart_server <- function(input, output, session) {
     gasprice_diff <- waterfalldf |>
       dplyr::summarize(
         difference = dplyr::last(values) - dplyr::first(values),
-        text_difference = format(dplyr::last(values) - dplyr::first(values), nsmall = 2)
+        text_difference = format(abs(dplyr::last(values) - dplyr::first(values)), nsmall = 2)
       ) |>
       dplyr::mutate(text_indicator = dplyr::case_when(difference >= 0 ~ "more",
                                                       TRUE ~ "less")) |>
