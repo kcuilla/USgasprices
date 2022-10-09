@@ -43,26 +43,26 @@ jobs:
       - name: Install rgdal 
         run: |
           sudo apt install libgdal-dev 
+             
+      - name: Cache packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.local/share/renv
+          key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-renv-
+
+      - name: Restore packages
+        shell: Rscript {0}
+        run: |
+          if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
+          renv::restore()
           
       - name: Install remotes and rsconnect
         run: |
           install.packages(c("remotes", "rsconnect"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
-    
-      - name: Cache packages
-        uses: actions/cache@v1
-        with:
-          path: ${{ env.RENV_PATHS_ROOT }}
-          key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-renv-
-      
-      - name: Restore packages
-        shell: Rscript {0}
-        run: |
-          if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
-          renv::restore()
           
       - name: Get data
         run: Rscript -e 'source("data-raw/get_data.R")'
