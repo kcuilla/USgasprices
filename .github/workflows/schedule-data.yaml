@@ -46,7 +46,7 @@ jobs:
           
       - name: Install highcharter
         run: |
-          install.packages("highcharter"))
+          install.packages("highcharter")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
              
