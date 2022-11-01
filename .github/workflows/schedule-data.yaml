@@ -43,6 +43,12 @@ jobs:
       - name: Install rgdal 
         run: |
           sudo apt install libgdal-dev 
+          
+      - name: Install highcharter
+        run: |
+          install.packages("highcharter"))
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
              
       # this comes directly from the renv site but doesn't appear to be working
       # - name: Cache packages
