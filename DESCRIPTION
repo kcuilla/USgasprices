@@ -26,6 +26,7 @@ Imports:
     maptools,
     purrr,
     reactable,
+    reactablefmtr,
     rgdal,
     scales,
     shiny (>= 1.7.1),
