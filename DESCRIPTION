@@ -28,6 +28,7 @@ Imports:
     reactable,
     reactablefmtr,
     rgdal,
+    sass,
     scales,
     shiny (>= 1.7.1),
     shinybrowser,
