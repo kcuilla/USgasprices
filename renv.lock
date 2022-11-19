@@ -319,6 +319,29 @@
         "yaml"
       ]
     },
+    "covrpage": {
+      "Package": "covrpage",
+      "Version": "0.1",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "covrpage",
+      "RemoteUsername": "yonicd",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "b5e63902e3a33fbc5f927ef7a300477589536854",
+      "Hash": "6e4c5a8b2fa2c27e7a9242af60fcc255",
+      "Requirements": [
+        "covr",
+        "curl",
+        "git2r",
+        "magrittr",
+        "remotes",
+        "rmarkdown",
+        "testthat",
+        "whisker",
+        "withr"
+      ]
+    },
     "cpp11": {
       "Package": "cpp11",
       "Version": "0.4.3",
@@ -1562,10 +1585,10 @@
     },
     "sass": {
       "Package": "sass",
-      "Version": "0.4.1",
+      "Version": "0.4.3",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "f37c0028d720bab3c513fd65d28c7234",
+      "Hash": "6cd2448458fdb03e21e69aa2d5ba25b2",
       "Requirements": [
         "R6",
         "fs",
