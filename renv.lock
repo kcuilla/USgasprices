@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "R": {
     "Version": "4.2.0",
@@ -713,40 +714,6 @@
       "Hash": "24b224366f9c2e7534d2344d10d59211",
       "Requirements": [
         "rprojroot"
-      ]
-    },
-    "highcharter": {
-      "Package": "highcharter",
-      "Version": "0.9.4.9000",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteRepo": "highcharter",
-      "RemoteUsername": "jbkunst",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "30d367495ef8cbbc17c1daa6b082cced0fa94c8c",
-      "Hash": "6d6d766a325d383d9543413a4123409b",
-      "Requirements": [
-        "assertthat",
-        "broom",
-        "dplyr",
-        "htmltools",
-        "htmlwidgets",
-        "igraph",
-        "jsonlite",
-        "lubridate",
-        "magrittr",
-        "purrr",
-        "quantmod",
-        "rjson",
-        "rlang",
-        "rlist",
-        "stringr",
-        "tibble",
-        "tidyr",
-        "xts",
-        "yaml",
-        "zoo"
       ]
     },
     "highr": {

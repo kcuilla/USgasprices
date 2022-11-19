@@ -2,13 +2,15 @@
 
 Below is a breakdown of how I used GitHub Actions to automate the data collection and deployment of the app.
 
-## Section 1
+## Events
 
-This section tells GitHub Actions when to do it's thing.
+The first section of the workflow defines the event that triggers the workflow to run. 
 
-The first part I will cover is the `schedule`. EIA updates the data needed for this app every Monday or Tuesday (if a federal holiday falls on a Monday) "around" 5PM EST. To err on the safe side, I scheduled the workflow to kickoff at 7:30PM EST on Mondays. the In order to convert that time to a cron date/time format, I used the [Crontab](https://crontab.guru/#30_23_*_*_1) website which was helpful in understanding what values I needed.
+For my app, the gas price data I use is updated once per week by the [EIA]() "around 5PM EST every Monday" according to their documentation. So, in order to automate the data collection for my app, I needed to kickoff the workflow every Monday night a little after 5PM EST so that it could collect the latest data. I decided to set the time to 7:30PM EST to err on the side of caution in case EIA was late updating their data.
 
-The second part is `push`. Whenever I make changes to the GitHub repo, such as adding a new chart to the Shiny app or changing the appearance of the app, when I push the changes to the main branch, the workflow will automatically kick off. If you are actively developing your project and making constant pushes to the repo, I would recommend removing the `push` section so that your GitHub Actions isn't forced to run for each commit.
+The workflow requires the date/time to be in cron format, so I converted "7:30PM EST every Monday" to a cron date/time of '30 23 * * 1' by using this [cron time converter](https://crontab.guru/).
+
+In addition to scheduling a time for the workflow to run, I also set the workflow to kickoff whenever I made a push to the main branch with `push: branches: main`. This is useful for whenever you need to make an update to your process but don't want to wait until the workflow is scheduled to run.
 
 ```
 on:
@@ -18,41 +20,33 @@ on:
     branches: main
 ```
 
-## Section 2
-
-This is the name of the entire workflow.
-
-```
-name: Get EIA Gas Data
-```
-
-## Section 3
+## Runner environment
 
 This is the start of the jobs that will run in a runner environment. There are multiple virtual environments available that can be used within `runs-on` but ubuntu-latest uses the fewest minutes. 
 
-I also specified a timeout with `timeout-minutes` to kill the job after 45 minutes in case the script gets stuck pulling the data.
+The number of minutes you use matters because there's a 2,000 minute per month limit on public repositories. And if you wish to use GitHub Actions on a private repository, you'll be charged per minute you use. 
+
+One way that you can avoid racking up unnecessary minutes is by adding `timeout-minutes` to your workflow. Sometimes data pipelines can get stuck, especially if you're pulling data from another site. This will ensure that your workflow will automatically stop after it exceeds the number of minutes specified. 
 
 ```
+name: Get EIA Gas Data
+
 jobs:
   generate-data:
     name: update data
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 75
 ```
 
-## Section 4
+## Environment variables
 
 This section sets all of the environment variables for the virtual environment.
 
-`RENV_PATHS_ROOT` is the directory of the r environment which is created by the {renv} package. 
+The first variable listed, `RENV_PATHS_ROOT`, is the directory of the R environment which is created by the {renv} package. 
 
-`GITHUB_PAT` is the authentication key needed for GitHub
+The remaining variables all contain the necessary keys needed to access my GitHub repository (`GITHUB_PAT`), the EIA API (`EIA_API_KEY`), and my shinyapps.io account (`SHINY_ACCOUNT`, `SHINY_TOKEN`, `SHINY_SECRET`). 
 
-`EIA_API_KEY` is the API key needed to access the EIA API.
-
-`SHINY_ACCOUNT`, `SHINY_TOKEN`, `SHINY_SECRET` are the login credentials for my shinyapps.io account.
-
-For the environment variables below that contain the words 'secrets', these are all stored and encrypted within the repo itself. The benefit of using GitHub secrets is that your keys/tokens are safe and encrypted and won't show anywhere in the underlying code of your repo. For info about how to store the secrets, see this article: [GitHub Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets).
+Each of these variables are encrypted and stored in the repository as 'secrets'. This is a GitHub feature that allows you to store your keys secretly within your repository so that they don't appear anywhere in your underlying code. For more info about how to store secret keys in your repository, see this article: [GitHub Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets).
 
 ```
 env:
@@ -64,13 +58,11 @@ env:
   SHINY_SECRET: ${{ secrets.SHINY_SECRET }}
 ```
 
-## Section 5
+## Setup
 
 This section begins the steps of the workflow.
 
-The first two things that happen is:
-1) GitHub Actions checks the repo to make sure it's available
-2) R is set up on the virtual environment
+The first command, `uses: actions/checkout@v2`, just does a quick check to make sure your repository is available. The second command, `uses: r-lib/actions/setup-r@v2`, sets up the virtual R environment for your workflow. 
 
 ```
 steps:
@@ -84,61 +76,21 @@ steps:
       use-public-rspm: true
 ```
 
-Note: you can see a history of the GitHub Actions workflow for each run by clicking on the Actions tab in your repo as shown below:
+## Restore packages
 
-![image](https://user-images.githubusercontent.com/17436783/177876462-aa9c707e-2bf4-4fce-adb8-113252ef64c6.png)
+This step installs the [{renv}](https://rstudio.github.io/renv/index.html) package and loads the packages that are used within your repository. 
 
-## Section 6
+If any of the packages loaded within your project are not on CRAN or if you're using a newer developer version of the package, you'll need to install the {remotes} package first, so that those packages can be installed with `remotes::install_github()`.
 
-This section creates and populates the .Renviron file and store the EIA API key within the environment so that it can be retrieved with `Sys.getenv("EIA_API_KEY")` within the `get_data.R` script in this repo.
+<i>Note: before this step is done, you need to save the state of your project library in a lockfile with `renv::snapshot()`. This will create a `renv.lock` file that contains all the current version of the packages for your project.</i>
 
 ```
-- name: Create and populate .Renviron file
+- name: Install remotes
   run: |
-    echo EIA_API_KEY="$EIA_API_KEY" >> ~/.Renviron
-  shell: bash
-```
-
-## Section 7
-
-It took a lot of debugging to figure out what was needed in the section below. Initially, I was getting an error message that the {eia} package could not be installed. Looking into it further, I learned that the {eia} package depends on the {httr} package which depends on libcurl, and since libcurl wasn't present in the virtual environment, it was failing to install and load the {eia} package. Therefore, the first command below, which is needed before the packages are installed and loaded in the workflow, installs libcurl to prevent that error and allow the use of {eia}. The second command below, installs the dev version of rgdal which, through more debugging, I learned is needed in order to run the {ggiraph} package on Shiny. Unless you are specifically using these packages within a virtual R environment, you likely can skip these two installs in your workflow.  
-
-```
-- name: Install libcurl
-  run: |
-    sudo apt-get update -y
-    sudo apt-get install -y libcurl4-openssl-dev
-    
-- name: Install rgdal 
-  run: |
-    sudo apt install libgdal-dev 
-```
-
-## Section 8
-
-The {remotes} and {rsconnect} packages are installed so that the app can be deployed on shinyapps.io.
-
-```
-- name: Install remotes and rsconnect
-  run: |
-    install.packages(c("remotes", "rsconnect"))
+    install.packages("remotes")
     remotes::install_deps(dependencies = TRUE)
   shell: Rscript {0}
-```
-
-## Section 9
-
-These steps cache the packages within the environment so that they don't have to be re-installed each time the GitHub Actions workflow starts.
-
-```
-- name: Cache packages
-  uses: actions/cache@v1
-  with:
-    path: ${{ env.RENV_PATHS_ROOT }}
-    key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
-    restore-keys: |
-      ${{ runner.os }}-renv-
-
+  
 - name: Restore packages
   shell: Rscript {0}
   run: |
@@ -146,18 +98,22 @@ These steps cache the packages within the environment so that they don't have to
     renv::restore()
 ```
 
-## Section 10
+## Calling a script within your repository
 
-This section runs the `get_data.R` script within this repo which pulls in the data from [EIA](https://www.eia.gov/petroleum/gasdiesel/) and saves it within the R environment.
+In my [USgasprices](https://github.com/kcuilla/USgasprices/blob/main/data-raw/get_data.R) repository, I have a script called `get_data.R` that connects to the EIA API, pulls the data needed for my project, and saves it within my repository. The code chunk below kicks off that script within the workflow.  
 
 ```
 - name: Get data
   run: Rscript -e 'source("data-raw/get_data.R")'
 ```
 
-## Section 11
+<i>Note: in order to connect to EIA's API, I needed to include a couple additional sections to the workflow. Please see the 'Additional Sections' section below for those additional commands.</i>
 
-This section commits the updated data to the repo. If the GitHub Actions job fails for whatever reason, a report is emailed to my email address.
+## Commit to repository
+
+After the data has been refreshed and saved within my repository, GitHub Actions commits and pushes the results with the message "Weekly gas data updated".
+
+If the GitHub Actions job fails for whatever reason, a report is emailed to my email address.
 
 ```
 - name: Commit results
@@ -169,14 +125,55 @@ This section commits the updated data to the repo. If the GitHub Actions job fai
     git push origin || echo "No changes to commit"
 ```
 
-## Section 12
+## Deploy app
 
-Now that the data is updated and commited to the repo, the app is deployed to shinyapp.io using my encrypted credentials below!
+Now that my repository is updated, the last step of the process is to deploy the app to shinyapps.io.
+
+The functions needed to deploy the app come from the {rsconnect} package, so this package needs to be installed before deployment. 
+
+To deploy the app to shinyapps.io, we can use our secret Shiny variables set earlier as the credentials needed for the account. 
 
 ```
+- name: Install rsconnect
+  run: |
+    install.packages("rsconnect")
+  shell: Rscript {0}
+  
 - name: Deploy to shinyapps.io
   run: |
     rsconnect::setAccountInfo(name="${{secrets.SHINY_ACCOUNT}}", token="${{secrets.SHINY_TOKEN}}", secret="${{secrets.SHINY_SECRET}}")
     rsconnect::deployApp(appName = 'usgasprices')
   shell: Rscript {0}
+```
+
+## Additional resources
+
+The additional sections below were needed for my workflow to run, so unless your repository has similar requirements to mine, it's likely you won't need to add these sections to your workflow. 
+
+### Create .Renviron file
+
+Within the `get_data.R` script of my repository, I extract my EIA API key from my R environment so that I can connect to the EIA API and pull the data needed for my project. In order for this to occur during my workflow, I need to create an .Renviron file within my virtual environment and store the key within that environment.  
+
+```
+- name: Create and populate .Renviron file
+  run: |
+    echo EIA_API_KEY="$EIA_API_KEY" >> ~/.Renviron
+  shell: bash
+```
+
+### Install additional package dependencies
+
+It took a lot of debugging to figure out what was needed in the section below. Initially, I was getting an error message that the {eia} package could not be installed. Looking into it further, I learned that the {eia} package depends on the {httr} package which depends on {libcurl}, and since {libcurl} wasn't present in the virtual environment, it was failing to install and load the {eia} package. Therefore, the first command below, which is needed before the packages are installed and loaded in the workflow, installs {libcurl} to prevent that error and allow the use of {eia}. 
+
+The second command below, installs the dev version of {rgdal} which, through more debugging, I learned is needed in order to run the {ggiraph} package on Shiny. Again, unless you are specifically using these packages within a virtual R environment, you likely can skip these two installs in your workflow.  
+
+```
+- name: Install libcurl
+  run: |
+    sudo apt-get update -y
+    sudo apt-get install -y libcurl4-openssl-dev
+    
+- name: Install rgdal 
+  run: |
+    sudo apt install libgdal-dev 
 ```
