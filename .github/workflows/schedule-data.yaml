@@ -43,6 +43,10 @@ jobs:
       - name: Install rgdal 
         run: |
           sudo apt install libgdal-dev 
+          
+      - name: Install libglpk
+        run: |
+          sudo apt-get install libglpk-dev
              
       # this comes directly from the renv site but doesn't appear to be working
       # - name: Cache packages
