@@ -1284,20 +1284,6 @@
         "xopen"
       ]
     },
-    "sass": {
-      "Package": "sass",
-      "Version": "0.4.3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "6cd2448458fdb03e21e69aa2d5ba25b2",
-      "Requirements": [
-        "R6",
-        "fs",
-        "htmltools",
-        "rappdirs",
-        "rlang"
-      ]
-    },
     "reactR": {
       "Package": "reactR",
       "Version": "0.4.4",
@@ -1328,13 +1314,14 @@
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
-      "RemoteRepo": "reactablefmtr",
       "RemoteUsername": "kcuilla",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "1428484f69586e857649f4702dfba91f1b7d767e",
-      "Hash": "d19d39438121ca4257d67a205f903ba2",
+      "RemoteRepo": "reactablefmtr",
+      "RemoteRef": "main",
+      "RemoteSha": "4d460f9a26d3dc4dddf8e828ac0cfecb3d98160a",
+      "Hash": "65b4edc30b28a50402ed2a1625202955",
       "Requirements": [
         "dplyr",
+        "glue",
         "htmltools",
         "htmlwidgets",
         "magrittr",
@@ -1572,6 +1559,20 @@
         "selectr",
         "tibble",
         "xml2"
+      ]
+    },
+    "sass": {
+      "Package": "sass",
+      "Version": "0.4.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "6cd2448458fdb03e21e69aa2d5ba25b2",
+      "Requirements": [
+        "R6",
+        "fs",
+        "htmltools",
+        "rappdirs",
+        "rlang"
       ]
     },
     "scales": {
