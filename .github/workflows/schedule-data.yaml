@@ -47,15 +47,11 @@ jobs:
       - name: Install libglpk
         run: |
           sudo apt-get install libglpk-dev
-             
-      # this comes directly from the renv site but doesn't appear to be working
-      # - name: Cache packages
-      #  uses: actions/cache@v2
-      #  with:
-      #    path: ~/.local/share/renv
-      #    key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
-      #    restore-keys: |
-      #      ${{ runner.os }}-renv-
+          
+      - name: Install sass
+        run: |
+          install.packages("sass"))
+        shell: Rscript {0}
 
       - name: Restore packages
         shell: Rscript {0}
