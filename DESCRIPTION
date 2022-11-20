@@ -20,6 +20,7 @@ Imports:
     ggtext,
     glue,
     golem (>= 0.3.2),
+    highcharter,
     hover,
     kableExtra,
     magrittr,
