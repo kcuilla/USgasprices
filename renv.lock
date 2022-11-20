@@ -1563,20 +1563,6 @@
         "xml2"
       ]
     },
-    "sass": {
-      "Package": "sass",
-      "Version": "0.4.3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "6cd2448458fdb03e21e69aa2d5ba25b2",
-      "Requirements": [
-        "R6",
-        "fs",
-        "htmltools",
-        "rappdirs",
-        "rlang"
-      ]
-    },
     "scales": {
       "Package": "scales",
       "Version": "1.2.1",

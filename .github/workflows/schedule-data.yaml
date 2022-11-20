@@ -50,7 +50,7 @@ jobs:
           
       - name: Install sass
         run: |
-          install.packages("sass")
+          install.packages("sass", version = "0.4.3")
         shell: Rscript {0}
 
       - name: Restore packages
