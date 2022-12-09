@@ -63,7 +63,12 @@ get_gas_prices <- function(id, start = "20070101") {
   x <- data %>%
     tidyr::unnest(., cols = data) %>%
     dplyr::select(location = description, date, year, month, week, value, updated) %>%
-    dplyr::mutate(type = stringr::str_extract(location, fixed(c("Regular","Midgrade","Premium")))) %>%
+    #dplyr::mutate(type = stringr::str_extract(location, fixed(c("Regular","Midgrade","Premium")))) %>%
+    dplyr::mutate(type = dplyr::case_when(
+      stringr::str_detect(id, "EPMR") ~ "Regular",
+      stringr::str_detect(id, "EPMM") ~ "Midgrade",
+      TRUE ~ "Premium"
+    )) %>%
     dplyr::mutate(location = gsub(paste0(c("Regular","Midgrade","Premium"),collapse = "|"),"", location)) %>%
     dplyr::mutate(updated = lubridate::date(updated)) %>%
     dplyr::mutate(location = dplyr::case_when(
