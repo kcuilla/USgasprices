@@ -383,7 +383,7 @@ mod_chart_server <- function(input, output, session) {
       highcharter::hc_xAxis(type = "category") |>
       highcharter::hc_yAxis(
         min = 0,
-        max = 7,
+        max = 6,
         tickInterval = 1,
         title = list(text = "$/gal"),
         labels = list(format = "${value:.0f}")
